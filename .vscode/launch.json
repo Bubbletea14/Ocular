@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-OcularApplication<ocular>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.mscs.project.ocular.ocular.OcularApplication",
+            "projectName": "ocular",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
