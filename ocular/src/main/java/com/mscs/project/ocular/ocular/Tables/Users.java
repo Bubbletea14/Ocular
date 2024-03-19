@@ -11,9 +11,6 @@ public class Users {
     private String password;
     private String email;
     private String admin;
-
-    @OneToOne(mappedBy = "user")
-    private Memory memory;
     
     public String getAdmin() {
         return admin;

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface CPURepository extends JpaRepository<CPU, LocalDateTime> {
     List<CPU> findByDateTime(LocalDateTime dateTime);
-    Optional<CPU> findFirstByOrderByDatetimeDesc();
+    Optional<CPU> findFirstByOrderByDateTimeDesc();
 }

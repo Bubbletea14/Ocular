@@ -17,8 +17,6 @@ public class MemoryService {
     }
 
     public Optional<Memory> findMostUpToDateMemory() {
-        return memoryRepository.findFirstByOrderByDatetimeDesc();
+        return memoryRepository.findFirstByOrderByDateTimeDesc();
     }
-
-
 }

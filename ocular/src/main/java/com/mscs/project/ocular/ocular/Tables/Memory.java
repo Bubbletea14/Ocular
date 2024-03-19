@@ -6,17 +6,17 @@ import java.time.LocalDateTime;
 public class Memory {
     @Id
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime time;
+    private LocalDateTime dateTime;
     
     private double memoryUsage;
     private int memorySpeed;
     private double memAvailable;
 
     public LocalDateTime getTime() {
-        return time;
+        return dateTime;
     }
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
     public double getMemoryUsage() {
         return memoryUsage;

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;;
 
+@Entity
 public class Processes {
     @Id
     @Temporal(TemporalType.TIMESTAMP)

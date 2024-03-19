@@ -6,6 +6,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemoryRepository extends JpaRepository<Memory,LocalDateTime>{
-    List<Memory> findAllByDatetimeAfter(LocalDateTime dateTime);
-    Optional<Memory> findFirstByOrderByDatetimeDesc();
+    List<Memory> findAllByDateTimeAfter(LocalDateTime dateTime);
+    Optional<Memory> findFirstByOrderByDateTimeDesc();
 }

@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface ProcessesRepository extends JpaRepository<Processes, LocalDateTime> {
     List<Processes> findByDateTime(LocalDateTime dateTime);
-    List<Processes> findAllByDatetimeBetween(LocalDateTime starTime,LocalDateTime endTime);
-    Optional<Processes> findFirstByOrderByDatetimeDesc();
+    List<Processes> findAllByDateTimeBetween(LocalDateTime starTime,LocalDateTime endTime);
+    Optional<Processes> findFirstByOrderByDateTimeDesc();
 }

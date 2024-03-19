@@ -1,18 +1,22 @@
 package com.mscs.project.ocular.ocular.Tables;
 import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
-import jakarta.persistence.*;;
-
+@Entity
 public class CPU {
     @Id
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateTime;
 
-    private int cpuUtilization;
+    private double cpuUtilization;
     private double cpuSpeed;
     private LocalDateTime cpuUptime;
     private int cpuProcesses;
     private int cpuThreads;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
 
     public LocalDateTime getDateTime() {
         return dateTime;
@@ -21,10 +25,10 @@ public class CPU {
         this.dateTime = dateTime;
     }
 
-    public int getCpuUtilization() {
+    public double getCpuUtilization() {
         return cpuUtilization;
     }
-    public void setCpuUtilization(int cpuUtilization) {
+    public void setCpuUtilization(double cpuUtilization) {
         this.cpuUtilization = cpuUtilization;
     }
 
