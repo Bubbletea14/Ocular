@@ -1,12 +1,6 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
     "sqltools.useNodeRuntime": true,
-    "sqltools.connections": [
-        {
-            "previewLimit": 50,
-            "driver": "SQLite",
-            "database": "${workspaceFolder:Ocular}/ocular.db",
-            "name": "Ocular"
-        }
-    ]
+    "sqltools.connections": [],
+    "java.dependency.syncWithFolderExplorer": false
 }

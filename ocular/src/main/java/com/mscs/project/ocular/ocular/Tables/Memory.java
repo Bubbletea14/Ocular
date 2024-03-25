@@ -5,17 +5,16 @@ import java.time.LocalDateTime;
 @Entity
 public class Memory {
     @Id
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dateTime;
     
     private double memoryUsage;
     private int memorySpeed;
     private double memAvailable;
 
-    public LocalDateTime getTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
-    public void setTime(LocalDateTime dateTime) {
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
     public double getMemoryUsage() {

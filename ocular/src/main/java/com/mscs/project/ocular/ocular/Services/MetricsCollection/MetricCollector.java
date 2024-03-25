@@ -17,6 +17,8 @@ import com.mscs.project.ocular.ocular.Tables.*;
 
 @Component
 public class MetricCollector {
+    private static final int POLL_SPEED = 15;
+
     private final CPURepository cpuRepository;
     private final MemoryRepository memoryRepository;
     private final ProcessesRepository processesRepository;
@@ -35,14 +37,16 @@ public class MetricCollector {
             public void run() {
                 collectAndSaveMetrics();
             }
-        }, 0, 30 * 1000); // Run every 30 seconds
+        }, 0, POLL_SPEED * 1000); // Run every 30 seconds
     }
 
     private void collectAndSaveMetrics() {
         System.out.println("New Cycle");
         // Simulate some metrics, replace with your actual metric collection logic
         double cpuUtilization = getSystemCpuUsage();
+        System.out.println("Cpu Util = "+ cpuUtilization);
         double memoryUsage = getSystemMemoryUsage();
+        System.out.println("Mem usage = "+memoryUsage);
         String processName = "ExampleProcess";  // Replace with actual process name logic
         int pId = 123;  // Replace with actual process ID logic
         int cpuPercent = getProcessCpuUsage(pId);
@@ -53,15 +57,22 @@ public class MetricCollector {
 
         // Save CPU metrics
         CPU cpuMetrics = new CPU();
-        cpuMetrics.setDateTime(timestamp);
+        cpuMetrics.setDateTime(LocalDateTime.now());
         cpuMetrics.setCpuUtilization(cpuUtilization);
+        System.out.println(getProcessorName());
         // Set other CPU metrics...
 
-        cpuRepository.save(cpuMetrics);
+        try {
+           cpuRepository.save(cpuMetrics); 
+        }
+        catch(Exception e) {
+            int test= 5;
+        }
+        
 
         // Save Memory metrics
         Memory memoryMetrics = new Memory();
-        memoryMetrics.setTime(timestamp);
+        memoryMetrics.setDateTime(LocalDateTime.now());
         memoryMetrics.setMemoryUsage(memoryUsage);
         // Set other Memory metrics...
 

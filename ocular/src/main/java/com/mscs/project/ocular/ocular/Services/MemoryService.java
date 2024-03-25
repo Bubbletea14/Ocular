@@ -16,7 +16,7 @@ public class MemoryService {
         this.memoryRepository = memoryRepository;
     }
 
-    public Optional<Memory> findMostUpToDateMemory() {
-        return memoryRepository.findFirstByOrderByDateTimeDesc();
-    }
+    //public Optional<Memory> findMostUpToDateMemory() {
+        //return memoryRepository.findFirstByOrderByDateTimeDesc();
+    //}
 }
