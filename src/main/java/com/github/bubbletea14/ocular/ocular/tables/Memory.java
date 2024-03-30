@@ -15,7 +15,7 @@ public class Memory {
         return memoryUsage;
     }
     
-    public void getMemoryUsage(float memoryUsage){
+    public void setMemoryUsage(float memoryUsage){
         this.memoryUsage = memoryUsage;
     }
 
@@ -23,7 +23,7 @@ public class Memory {
         return memorySpeed;
     }
     
-    public void getMemorySpeed(float memorySpeed){
+    public void setMemorySpeed(float memorySpeed){
         this.memorySpeed = memorySpeed;
     }
 }

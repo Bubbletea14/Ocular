@@ -15,8 +15,8 @@ public class Processes {
         return pId;
     }
 
-    public void setPId(Long pId){
-        this.pId = pId;
+    public void setPId(Long newPid){
+        this.pId = newPid;
     }
 
     public String getName(){

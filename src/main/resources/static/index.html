@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ocular Metrics Collector</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: bisque;
+        }
+
+        p {
+            font-family: verdana;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1 style="color:blueviolet;">Welcome to Ocular</h1>
+    <h1>User List</h1>
+    <ul id="userList"></ul>
+
+    <h1>Process List</h1>
+    <ul id="processList"></ul>
+
+    <h1>Memory List</h1>
+    <ul id="memoryList"></ul>
+
+    <h1>Cpu List</h1>
+    <ul id="cpuList"></ul>
+
+
+    <script>
+        // Fetch data from the user API 
+        fetch('/api/v1/Users')
+            .then(response => response.json())
+            .then(users => {
+                // Handle the response data for users
+                const userListElement = document.getElementById('userList');
+                userListElement.innerHTML = '';
+                users.forEach(user => {
+                    const listUserItem = document.createElement('li');
+                    listUserItem.textContent = `ID: ${user.id}, Username: ${user.username}, Email: ${user.email}`;
+                    userListElement.appendChild(listUserItem);
+                });
+            })
+            .catch(error => console.error('Error fetching users:', error));
+
+        // Fetch data from the processes API 
+        fetch('/api/v1/Processes')
+            .then(response => response.json())
+            .then(processes => {
+                // Handle the response data for processes
+                const processListElement = document.getElementById('processList');
+                processListElement.innerHTML = '';
+                processes.forEach(process => {
+                    const listProcessItem = document.createElement('li');
+                    listProcessItem.textContent = `PID: ${process.pId}, Name: ${process.name}`;
+                    processListElement.appendChild(listProcessItem);
+                }); 
+            })
+            .catch(error => console.error('Error fetching processes:', error));
+
+        // Fetch data from the Memory API 
+        fetch('/api/v1/Memory')
+            .then(response => response.json())
+            .then(memoryData => {
+                // Handle the response data for memory
+                const memoryListElement = document.getElementById('memoryList');
+                memoryListElement.innerHTML = '';
+                memoryData.forEach(memory => {
+                    const listMemoryItem = document.createElement('li');
+                    listMemoryItem.textContent = `Memory Usage: ${memory.memoryUsage}, Memory Speed: ${memory.memorySpeed}`;
+                    memoryListElement.appendChild(listMemoryItem);
+                }); 
+            })
+            .catch(error => console.error('Error fetching memory data:', error));
+    </script>
+</body>
+
+</html>

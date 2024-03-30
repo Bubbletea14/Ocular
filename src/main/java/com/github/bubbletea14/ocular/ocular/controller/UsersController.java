@@ -3,7 +3,12 @@ package com.github.bubbletea14.ocular.ocular.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,4 +33,27 @@ public class UsersController {
     public List<Users> getUsers() {
         return usersService.getUsers();
 	}
+
+     @PostMapping
+    public void addUser(@RequestBody Users user) {
+        usersService.addUser(user);
+    }
+
+    @GetMapping("/{id}")
+    public Users getUserById(@PathVariable Long id) {
+        return usersService.getUserById(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateUser(@PathVariable Long id, @RequestBody Users user) {
+        usersService.updateUser(id, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        usersService.deleteUser(id);
+    }
+
+   
+
 }
