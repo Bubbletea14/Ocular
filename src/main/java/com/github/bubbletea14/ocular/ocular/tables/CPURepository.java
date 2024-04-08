@@ -1,12 +1,12 @@
 package com.github.bubbletea14.ocular.ocular.tables;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
-
+@Repository
 public interface CPURepository extends JpaRepository<Cpu, LocalDateTime> {
-    List<Cpu> findByDateTime(LocalDateTime dateTime);
+    Cpu findByDateTime(LocalDateTime dateTime);
     Optional<Cpu> findFirstByOrderByDateTimeDesc();
 }
