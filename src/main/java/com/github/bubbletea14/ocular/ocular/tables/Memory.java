@@ -1,30 +1,57 @@
 package com.github.bubbletea14.ocular.ocular.tables;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
 public class Memory {
-    private float memoryUsage;
-    private float memorySpeed;
+    @Id
+    private LocalDateTime dateTime;
+
+    private double memoryUsage;
+    private double memorySpeed;
+    private double memAvailable;
+
+    public Memory() {
+
+    }
 
     // Constructor
-    public Memory (float memoryUsage, float memorySpeed) {
+    public Memory (double memoryUsage, double memorySpeed) {
         this.memoryUsage = memoryUsage;
         this.memorySpeed = memorySpeed;
     }
 
     //Getter and Setter
-    public float getMemoryUsage() {
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+    
+    public double getMemoryUsage() {
         return memoryUsage;
     }
     
-    public void setMemoryUsage(float memoryUsage){
+    public void setMemoryUsage(double memoryUsage){
         this.memoryUsage = memoryUsage;
     }
 
-    public float getMemorySpeed() {
+    public double getMemorySpeed() {
         return memorySpeed;
     }
     
-    public void setMemorySpeed(float memorySpeed){
+    public void setMemorySpeed(double memorySpeed){
         this.memorySpeed = memorySpeed;
+    }
+
+    public double getMemAvailable() {
+        return memAvailable;
+    }
+
+    public void setMemAvailable(double memAvailable) {
+        this.memAvailable = memAvailable;
     }
 }
 

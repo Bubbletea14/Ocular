@@ -1,14 +1,21 @@
 package com.github.bubbletea14.ocular.ocular.tables;
 import java.time.LocalDate;
+import jakarta.persistence.*;;
 
-public class Users 
-{
+@Entity
+public class Users {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String username;
     private String password;
     private LocalDate dob;
     private String email;
 
+    public Users() {
+
+    }
 
     public Users (long id, 
                 String username, 
