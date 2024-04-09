@@ -1,6 +1,7 @@
 package com.github.bubbletea14.ocular.ocular;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.github.bubbletea14.ocular.ocular.tables.*;
 import java.time.LocalDate;
@@ -9,10 +10,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class TableObjectTests {
-    private Memory memory = new Memory();
-    private Cpu cpu = new Cpu();
-    private Processes processes = new Processes();
-    private Users user = new Users();
+    @Autowired
+    private Memory memory;
+    @Autowired
+    private Cpu cpu;
+    @Autowired
+    private Processes processes;
+    @Autowired
+    private Users user;
 
     @Test
     public void MemoryTest() {
