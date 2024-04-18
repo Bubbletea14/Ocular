@@ -5,14 +5,17 @@ import org.springframework.stereotype.Component;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
-import java.lang.management.OperatingSystemMXBean;
+import com.sun.management.OperatingSystemMXBean;
 import java.lang.management.RuntimeMXBean;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.sun.jna.platform.win32.Kernel32;
+import com.sun.jna.platform.win32.WinBase;
 import com.github.bubbletea14.ocular.ocular.tables.*;
+
 
 
 @Component
@@ -47,6 +50,8 @@ public class MetricCollector {
         System.out.println("Cpu Util = "+ cpuUtilization);
         double memoryUsage = getSystemMemoryUsage();
         System.out.println("Mem usage = "+memoryUsage);
+        System.out.println("Total Memory = "+ getTotalMemory());
+        System.out.println("Total Physical Memory = "+ getTotalPhysicalMemory());
         String processName = "ExampleProcess";  // Replace with actual process name logic
         Long pId = 123L;  // Replace with actual process ID logic
         int cpuPercent = getProcessCpuUsage(pId);
@@ -84,19 +89,37 @@ public class MetricCollector {
     }
 
     private double getSystemCpuUsage() {
-        OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
-        return osBean.getSystemLoadAverage();
+        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        return osBean.getCpuLoad()* 100;
     }
 
     private String getProcessorName() {
-        OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
+        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
         return osBean.getArch() + " " + osBean.getAvailableProcessors() + " processors";
     }
 
     private double getSystemMemoryUsage() {
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
-        return (double) (memoryMXBean.getHeapMemoryUsage().getUsed() + memoryMXBean.getNonHeapMemoryUsage().getUsed())
-                / (double) (memoryMXBean.getHeapMemoryUsage().getMax() + memoryMXBean.getNonHeapMemoryUsage().getMax()) * 100.0;
+        return ((double) (memoryMXBean.getHeapMemoryUsage().getUsed() + memoryMXBean.getNonHeapMemoryUsage().getUsed())
+                / (double) (memoryMXBean.getHeapMemoryUsage().getMax() + memoryMXBean.getNonHeapMemoryUsage().getMax())) * 100.0;
+    }
+
+    private double getTotalMemory() {
+        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        return (double) (memoryMXBean.getHeapMemoryUsage().getMax() + memoryMXBean.getNonHeapMemoryUsage().getMax()) / (1024 * 1024 * 1024);
+    }
+
+    private static long getTotalPhysicalMemory() {
+        Kernel32 kernel32 = Kernel32.INSTANCE;
+        Kernel32.MEMORYSTATUSEX memoryStatus = new Kernel32.MEMORYSTATUSEX();
+        if (kernel32.GlobalMemoryStatusEx(memoryStatus)) {
+            return memoryStatus.ullTotalPhys.longValue() / (1024 * 1024 * 1024);
+        }
+        return -1;
+    }
+
+    public static long getMemorySpeed() {
+        return 1L;
     }
 
     private int getProcessCpuUsage(Long processId) {
