@@ -60,7 +60,7 @@
                     processListElement.innerHTML = '';
                     processes.forEach(process => {
                         const listProcessItem = document.createElement('li');
-                        listProcessItem.textContent = `PID: ${process.pId}, Name: ${process.name}`;
+                        listProcessItem.textContent = `PID: ${process.pid}, Name: ${process.name}`;
                         processListElement.appendChild(listProcessItem);
                     }); 
                 });
@@ -77,7 +77,13 @@
                     memoryListElement.innerHTML = '';
                     memoryData.forEach(memory => {
                         const listMemoryItem = document.createElement('li');
-                        listMemoryItem.textContent = `ID: ${memory.id}, Memory Usage: ${memory.memoryUsage}, Memory Speed: ${memory.memorySpeed}`;
+                        listMemoryItem.style.whiteSpace = 'pre-line';
+                        listMemoryItem.textContent = `Memory ID: ${memory.id}\n` +
+                            `Total Memory: ${memory.totalMemory}\n` +
+                            `Free Memory: ${memory.freeMemory}\n` +
+                            `Used Memory: ${memory.usedMemory}\n` +
+                            `Memory Speed: ${memory.memorySpeed}\n` +
+                            `Memory Usage Percentage: ${memory.memoryUsagePercentage}`;
                         memoryListElement.appendChild(listMemoryItem);
                     }); 
                 });
