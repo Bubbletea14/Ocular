@@ -3,12 +3,15 @@ package com.github.bubbletea14.ocular.ocular.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.bubbletea14.ocular.ocular.services.CpuService;
@@ -18,9 +21,11 @@ import com.github.bubbletea14.ocular.ocular.tables.Cpu;
 @RestController
 @RequestMapping(path = "api/v1/Cpu")
 public class CpuController {
+    //Reference
     private final CpuService cpuService;
 
     @Autowired
+    //Constructor
     public CpuController (CpuService cpuService) {
         this.cpuService = cpuService;
     }
@@ -30,18 +35,25 @@ public class CpuController {
         return cpuService.getCpuList();
     }
 
+   
     @PostMapping
-    public void addCpu(@RequestBody Cpu cpu){
-        cpuService.addCpu(cpu);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cpu addCpu(@RequestBody Cpu cpu) {
+        return cpuService.addCpu(cpu);
     }
 
-    @PutMapping
-    public void updateCpu(@RequestBody Cpu cpu){
-        cpuService.updateCpu(cpu);
+    @GetMapping("/{id}")
+    public Cpu getCpuById(@PathVariable Long id) {
+        return cpuService.getCpuById(id);
     }
 
-    @DeleteMapping
-    public void deleteCpu(@RequestBody Cpu cpu) {
-        cpuService.deleteCpu(cpu);
+    @PutMapping("/{id}")
+    public Cpu updateCpu(@PathVariable Long id, @RequestBody Cpu cpu){
+       return cpuService.updateCpu(id,cpu);
+    }
+
+    @DeleteMapping("/{id}")
+    public boolean deleteCpu(@PathVariable Long id) {
+       return cpuService.deleteCpu(id);
     }
 }

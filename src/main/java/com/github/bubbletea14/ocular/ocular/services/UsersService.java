@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 //import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -14,30 +15,11 @@ import com.github.bubbletea14.ocular.ocular.tables.Users;
 @Service
 public class UsersService {
 
-
-    // public List<Users> getUsers() {
-	// 	return List.of(
-	// 		new Users(
-	// 		1L,
-	// 		"Admin",
-	// 		"111",
-	// 		LocalDate.of(2010, Month.AUGUST,5),
-	// 		"admin.admin@admin.com"
-	// 		),
-
-	// 		new Users(
-	// 		2L,
-	// 		"User1",
-	// 		"222",
-	// 		LocalDate.of(2010, Month.JANUARY,3),
-	// 		"user1.user1@user1.com"
-	// 		)
-	// 	);
 		private final List<Users> usersList = new ArrayList<>();
 		
 		public UsersService(){
-			usersList.add(new Users(1L, "Admin", "111", LocalDate.of(2010, Month.AUGUST, 5), "admin.admin@admin.com"));
-			usersList.add(new Users(2L, "User1", "222", LocalDate.of(2011, Month.JANUARY, 3), "admin.admin@admin.com"));
+			usersList.add(new Users(1L, "User1", "111", LocalDate.of(2010, Month.AUGUST, 5), "User1.User1@User1.com"));
+			usersList.add(new Users(2L, "User2", "222", LocalDate.of(2011, Month.JANUARY, 3), "User2.User2@User2.com"));
 		}
 
 		public Users getUserById(Long id){
@@ -46,38 +28,39 @@ public class UsersService {
 					return user;
 				}
 			}
-			return null; // If no user with the given ID is found
+			throw new NoSuchElementException("User with ID " + id + " not found"); 
 		}
 
+		//Get users list
 		public List<Users> getUsers() {
 			return usersList;
 		}	
-	
-		public void addUser(Users user) {
+		
+		//Add user
+		public Users addUser(Users user) {
 			usersList.add(user);
+			return user;
 		}
-
-		public void updateUser(Long id, Users newUser) {
-			// for (int i = 0;i<usersList.size();i++){
-			// 	if(usersList.get(i).getId() == id) {
-			// 		Users user = usersList.get(i);
-			// 	}
-			// 	//return null
-			// }
+		
+		//Update User
+		public Users updateUser(Long id, Users newUser) {
 			for (Users user : usersList) {
 				if (user.getId() == id) {
 					user.setUsername(newUser.getUsername());
 					user.setPassword(newUser.getPassword());
 					user.setDob(newUser.getDob());
 					user.setEmail(newUser.getEmail());
-					break;
-				}
+					return user; // return update object
+				} 
 			}
+			return null; //If no user with the given ID is found
 		}
 		
-		public void deleteUser(Long id) {
-			usersList.removeIf(user -> user.getId() == id);
+		public boolean deleteUser(Long id) {
+			return usersList.removeIf(user -> user.getId() == id);
 		}
+	
+		
 		
 }
 

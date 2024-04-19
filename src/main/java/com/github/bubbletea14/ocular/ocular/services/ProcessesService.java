@@ -36,8 +36,9 @@ public class ProcessesService {
 			return processesList;
 	}	
     
-    public void addProcess(Processes process) {
+    public Processes addProcess(Processes process) {
         processesList.add(process);
+        return process;
     }	
 	
     public void updateProcess(Long pId, Processes newProcess) {

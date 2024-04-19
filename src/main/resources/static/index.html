@@ -20,16 +20,16 @@
 <body>
     <h1 style="color:blueviolet;">Welcome to Ocular</h1>
     <h1>User List</h1>
-    <ul id="userList"></ul>
+    <ul class="userList"></ul>
 
     <h1>Process List</h1>
-    <ul id="processList"></ul>
+    <ul class="processList"></ul>
 
     <h1>Memory List</h1>
-    <ul id="memoryList"></ul>
+    <ul class="memoryList"></ul>
 
     <h1>Cpu List</h1>
-    <ul id="cpuList"></ul>
+    <ul class="cpuList"></ul>
 
 
     <script>
@@ -38,12 +38,14 @@
             .then(response => response.json())
             .then(users => {
                 // Handle the response data for users
-                const userListElement = document.getElementById('userList');
-                userListElement.innerHTML = '';
-                users.forEach(user => {
-                    const listUserItem = document.createElement('li');
-                    listUserItem.textContent = `ID: ${user.id}, Username: ${user.username}, Email: ${user.email}`;
-                    userListElement.appendChild(listUserItem);
+                const userListElements = document.querySelectorAll('.userList');
+                userListElements.forEach(userListElement => {
+                    userListElement.innerHTML = '';
+                    users.forEach(user => {
+                        const listUserItem = document.createElement('li');
+                        listUserItem.textContent = `ID: ${user.id}, Username: ${user.username}, Email: ${user.email}`;
+                        userListElement.appendChild(listUserItem);
+                    });
                 });
             })
             .catch(error => console.error('Error fetching users:', error));
@@ -53,13 +55,15 @@
             .then(response => response.json())
             .then(processes => {
                 // Handle the response data for processes
-                const processListElement = document.getElementById('processList');
-                processListElement.innerHTML = '';
-                processes.forEach(process => {
-                    const listProcessItem = document.createElement('li');
-                    listProcessItem.textContent = `PID: ${process.pId}, Name: ${process.name}`;
-                    processListElement.appendChild(listProcessItem);
-                }); 
+                const processListElements = document.querySelectorAll('.processList');
+                processListElements.forEach(processListElement => {
+                    processListElement.innerHTML = '';
+                    processes.forEach(process => {
+                        const listProcessItem = document.createElement('li');
+                        listProcessItem.textContent = `PID: ${process.pId}, Name: ${process.name}`;
+                        processListElement.appendChild(listProcessItem);
+                    }); 
+                });
             })
             .catch(error => console.error('Error fetching processes:', error));
 
@@ -68,15 +72,35 @@
             .then(response => response.json())
             .then(memoryData => {
                 // Handle the response data for memory
-                const memoryListElement = document.getElementById('memoryList');
-                memoryListElement.innerHTML = '';
-                memoryData.forEach(memory => {
-                    const listMemoryItem = document.createElement('li');
-                    listMemoryItem.textContent = `Memory Usage: ${memory.memoryUsage}, Memory Speed: ${memory.memorySpeed}`;
-                    memoryListElement.appendChild(listMemoryItem);
-                }); 
+                const memoryListElements = document.querySelectorAll('.memoryList');
+                memoryListElements.forEach(memoryListElement => {
+                    memoryListElement.innerHTML = '';
+                    memoryData.forEach(memory => {
+                        const listMemoryItem = document.createElement('li');
+                        listMemoryItem.textContent = `ID: ${memory.id}, Memory Usage: ${memory.memoryUsage}, Memory Speed: ${memory.memorySpeed}`;
+                        memoryListElement.appendChild(listMemoryItem);
+                    }); 
+                });
             })
             .catch(error => console.error('Error fetching memory data:', error));
+
+         // Fetch data from the CPU API 
+         fetch('/api/v1/Cpu')
+            .then(response => response.json())
+            .then(cpu => {
+                // Handle the response data for cpu
+                const cpuListElements = document.querySelectorAll('.cpuList');
+                cpuListElements.forEach(cpuListElement => {
+                    cpuListElement.innerHTML = '';
+                    cpu.forEach(cpu => {
+                        const listCpuItem = document.createElement('li');
+                        listCpuItem.textContent = `ID: ${cpu.id}, ProcessorType: ${cpu.processorType}, processorSpeed: ${cpu.processorSpeed}, Count:${cpu.count}, upTime:${cpu.upTime} `;
+                        cpuListElement.appendChild(listCpuItem);
+                    });
+                });
+            })
+            .catch(error => console.error('Error fetching cpu:', error));
+
     </script>
 </body>
 

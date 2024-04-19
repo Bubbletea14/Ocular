@@ -8,6 +8,7 @@ public class Cpu {
     @Id
     private LocalDateTime dateTime;
     
+    private Long id;
     private String processorType;
     private int processorSpeed;
     private Long count;
@@ -17,10 +18,12 @@ public class Cpu {
 
     }
 
-    public Cpu(String processorType, 
+    public Cpu(long id,
+                String processorType, 
                 int processorSpeed,
                 Long count,
                 LocalDateTime upTime){
+        this.id = id;
         this.processorType = processorType;
         this.processorSpeed = processorSpeed;
         this.count = count;
@@ -34,6 +37,14 @@ public class Cpu {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(Long newId) {
+        this.id = newId;
     }
 
     public String getProcessorType(){
@@ -60,7 +71,7 @@ public class Cpu {
         this.count = count;
     }
 
-    public LocalDateTime getUptime(){
+    public LocalDateTime getUpTime(){
         return upTime;
     }
 
@@ -68,9 +79,11 @@ public class Cpu {
         this.upTime = upTime;
     }
 
+
     @Override
     public String toString () {
         return "Cpu {" + 
+                "CpuID=" + id + 
                 "ProcessorType=" + processorType +
                 ", ProcessorSpeed=" + processorSpeed + 
                 ", Count='" + count + '\'' + 

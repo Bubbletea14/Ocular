@@ -9,9 +9,7 @@ import com.github.bubbletea14.ocular.ocular.tables.Memory;
 
 @Service
 public class MemoryService {
-    // public List<Memory> getMemory(){
-    //     return List.of(new Memory(2.1f, 50.0f));
-    // }
+
     private final List<Memory> memoryList = new ArrayList<>();
     public MemoryService(){
         memoryList.add(new Memory(2.1f, 50.0f));
@@ -23,8 +21,9 @@ public class MemoryService {
         return memoryList;
     }
 
-    public void addMemory(Memory memory) {
+    public Memory addMemory(Memory memory) {
         memoryList.add(memory);
+        return memory;
     }
     
     public void updateMemory(Memory newMemory) {
