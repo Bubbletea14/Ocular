@@ -2,6 +2,7 @@ package com.github.bubbletea14.ocular.ocular.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
@@ -10,17 +11,12 @@ import com.github.bubbletea14.ocular.ocular.tables.Processes;
 
 @Service
 public class ProcessesService {
-    
-    // public List<Processes> getProcesses(){
-    //     return List.of(new Processes(1L, "Browser"));
-    // }
 
     private final List<Processes> processesList = new ArrayList<>();
 
     public ProcessesService() {
         processesList.add(new Processes(1L, "Chrome"));
         processesList.add(new Processes(2L, "Discord"));
-        processesList.add(new Processes(3L, "Spotify"));
     }
 
     public Processes getProcessByPid (long pId) {
@@ -29,7 +25,7 @@ public class ProcessesService {
                 return process;
             }
         }
-        return null;
+        throw new NoSuchElementException("Processes with PID " + pId + " not found"); 
     }
 
     public List<Processes> getProcesses() {
@@ -41,17 +37,18 @@ public class ProcessesService {
         return process;
     }	
 	
-    public void updateProcess(Long pId, Processes newProcess) {
+    public Processes updateProcess(Long pId, Processes newProcess) {
         for (Processes process : processesList) {
-            if (process.getPId().equals(pId)) {
+            if (process.getPId()== pId) {
                 process.setName(newProcess.getName());
-                break;
+                return process;
             }
         }
+        return null; //If no process with the given PID founded 
     }
 
-    public void deleteProcess(Long pId) {
-        processesList.removeIf(process -> process.getPId().equals(pId));
+    public boolean deleteProcess(Long pId) {
+        return processesList.removeIf(process -> process.getPId() == (pId));
     }
 		
 }

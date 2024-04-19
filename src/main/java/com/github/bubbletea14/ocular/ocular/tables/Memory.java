@@ -5,20 +5,29 @@ import java.time.LocalDateTime;
 @Entity
 public class Memory {
     @Id
+    private long id;
     private LocalDateTime dateTime;
 
-    private double memoryUsage;
-    private double memorySpeed;
+    private float totalMemory;
+    private float freeMemory;
+    private float usedMemory;
+    private float memorySpeed;
     private double memAvailable;
+    private double memoryUsage;
+    private float memoryUsagePercentage;
 
     public Memory() {
 
     }
 
     // Constructor
-    public Memory (double memoryUsage, double memorySpeed) {
-        this.memoryUsage = memoryUsage;
+    public Memory (long id, float totalMemory, float freeMemory, float usedMemory, float memorySpeed, float memoryUsagePercentage) {
+        this.id = id;
+        this.totalMemory = totalMemory;
+        this.freeMemory = freeMemory;
+        this.usedMemory = usedMemory;
         this.memorySpeed = memorySpeed;
+        this.memoryUsagePercentage = memoryUsagePercentage;
     }
 
     //Getter and Setter
@@ -33,16 +42,45 @@ public class Memory {
     public double getMemoryUsage() {
         return memoryUsage;
     }
-    
-    public void setMemoryUsage(double memoryUsage){
-        this.memoryUsage = memoryUsage;
+
+    public long getId() {
+        return id;
     }
 
-    public double getMemorySpeed() {
-        return memorySpeed;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public float getTotalMemory() {
+        return totalMemory;
     }
     
-    public void setMemorySpeed(double memorySpeed){
+    public void setTotalMemory(float totalMemory){
+        this.totalMemory = totalMemory;
+    }
+
+    public float getFreeMemory() {
+        return freeMemory;
+    }
+    
+    public void setFreeMemory(float freeMemory){
+        this.freeMemory = freeMemory;
+    }
+
+    public float getUsedMemory() {
+        return usedMemory;
+    }
+    
+    public void setUsedMemory(float usedMemory){
+        this.usedMemory = usedMemory;
+    }
+
+
+    public float getMemorySpeed(){
+        return memorySpeed;
+    }
+
+    public void setMemorySpeed(float memorySpeed){
         this.memorySpeed = memorySpeed;
     }
 
@@ -53,6 +91,16 @@ public class Memory {
     public void setMemAvailable(double memAvailable) {
         this.memAvailable = memAvailable;
     }
+
+    public float getMemoryUsagePercentage() {
+        return memoryUsagePercentage;
+    }
+    
+    public void setMemoryUsagePercentage(float memoryUsagePercentage){
+        this.memoryUsagePercentage = memoryUsagePercentage;
+    }
+
+
 }
 
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,13 +39,18 @@ public class MemoryController {
        return memoryService.addMemory(memory);
     }
 
-    @PutMapping
-    public void updateMemory(@RequestBody Memory memory){
-        memoryService.updateMemory(memory);
+    @GetMapping("/{id}")
+    public Memory getMemoryById(@PathVariable Long id) {
+        return memoryService.getMemoryById(id);
     }
 
-    @DeleteMapping
-    public void deleteMemory(@RequestBody Memory memory) {
-        memoryService.deleteMemory(memory);
+    @PutMapping("/{id}")
+    public Memory updateMemory(@PathVariable Long id,@RequestBody Memory memory){
+       return memoryService.updateMemory(id,memory);
+    }
+
+    @DeleteMapping("/{id}")
+    public boolean deleteMemory(@PathVariable Long id) {
+        return memoryService.deleteMemory(id);
     }
 }

@@ -43,18 +43,18 @@ public class ProcessesController {
     }
 
     @GetMapping("/{pId}")
-    public Processes getUserById(@PathVariable Long pId) {
+    public Processes getProcessByPid(@PathVariable Long pId) {
         return processesService.getProcessByPid(pId);
     }
 
     @PutMapping("/{pId}")
-    public void updateProcess(@PathVariable Long pId, @RequestBody Processes process) {
-        processesService.updateProcess(pId, process);
+    public Processes updateProcess(@PathVariable Long pId, @RequestBody Processes process) {
+       return processesService.updateProcess(pId, process);
     }
 
     @DeleteMapping("/{pId}")
-    public void deleteProcess(@PathVariable Long pId) {
-        processesService.deleteProcess(pId);
+    public boolean deleteProcess(@PathVariable Long pId) {
+        return processesService.deleteProcess(pId);
     }
 
 }
