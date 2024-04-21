@@ -23,14 +23,14 @@ public class TableObjectTests {
     public void MemoryTest() {
         final LocalDateTime currentTime = LocalDateTime.now();
         memory.setDateTime(currentTime);
-        memory.setMemoryUsage(50.5);
-        memory.setMemorySpeed(1600);
-        memory.setMemAvailable(2048);
+        memory.setMemoryUsagePercentage(50.5f);
+        memory.setMemorySpeed(1600f);
+        memory.setFreeMemory(2048f);
         
         assertEquals(currentTime, memory.getDateTime());
-        assertEquals(50.5, memory.getMemoryUsage());
-        assertEquals(1600, memory.getMemorySpeed());
-        assertEquals(2048, memory.getMemAvailable());
+        assertEquals(50.5f, memory.getMemoryUsagePercentage());
+        assertEquals(1600f, memory.getMemorySpeed());
+        assertEquals(2048f, memory.getFreeMemory());
     }
 
     @Test

@@ -5,15 +5,14 @@ import java.time.LocalDateTime;
 @Entity
 public class Memory {
     @Id
-    private long id;
-    private LocalDateTime dateTime;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    private LocalDateTime dateTime;
     private float totalMemory;
     private float freeMemory;
     private float usedMemory;
     private float memorySpeed;
-    private double memAvailable;
-    private double memoryUsage;
     private float memoryUsagePercentage;
 
     public Memory() {
@@ -37,10 +36,6 @@ public class Memory {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-    }
-    
-    public double getMemoryUsage() {
-        return memoryUsage;
     }
 
     public long getId() {
@@ -75,21 +70,12 @@ public class Memory {
         this.usedMemory = usedMemory;
     }
 
-
     public float getMemorySpeed(){
         return memorySpeed;
     }
 
     public void setMemorySpeed(float memorySpeed){
         this.memorySpeed = memorySpeed;
-    }
-
-    public double getMemAvailable() {
-        return memAvailable;
-    }
-
-    public void setMemAvailable(double memAvailable) {
-        this.memAvailable = memAvailable;
     }
 
     public float getMemoryUsagePercentage() {
@@ -99,8 +85,6 @@ public class Memory {
     public void setMemoryUsagePercentage(float memoryUsagePercentage){
         this.memoryUsagePercentage = memoryUsagePercentage;
     }
-
-
 }
 
 

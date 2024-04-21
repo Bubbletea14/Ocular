@@ -1,14 +1,14 @@
 package com.github.bubbletea14.ocular.ocular.tables;
-import java.lang.annotation.Inherited;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 @Entity
 public class Cpu {
     @Id
-    private LocalDateTime dateTime;
-    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private LocalDateTime dateTime;
     private String processorType;
     private int processorSpeed;
     private Long count;
@@ -78,7 +78,6 @@ public class Cpu {
     public void setUpTime(LocalDateTime upTime) {
         this.upTime = upTime;
     }
-
 
     @Override
     public String toString () {

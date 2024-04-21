@@ -48,7 +48,7 @@ public class MetricCollector {
         // Simulate some metrics, replace with your actual metric collection logic
         double cpuUtilization = getSystemCpuUsage();
         System.out.println("Cpu Util = "+ cpuUtilization);
-        double memoryUsage = getSystemMemoryUsage();
+        float memoryUsage = getSystemMemoryUsage();
         System.out.println("Mem usage = "+memoryUsage);
         System.out.println("Total Memory = "+ getTotalMemory());
         System.out.println("Total Physical Memory = "+ getTotalPhysicalMemory());
@@ -71,7 +71,7 @@ public class MetricCollector {
         // Save Memory metrics
         Memory memoryMetrics = new Memory();
         memoryMetrics.setDateTime(LocalDateTime.now());
-        memoryMetrics.setMemoryUsage(memoryUsage);
+        memoryMetrics.setMemoryUsagePercentage(memoryUsage);
         // Set other Memory metrics...
 
         memoryRepository.save(memoryMetrics);
@@ -98,10 +98,10 @@ public class MetricCollector {
         return osBean.getArch() + " " + osBean.getAvailableProcessors() + " processors";
     }
 
-    private double getSystemMemoryUsage() {
+    private float getSystemMemoryUsage() {
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
-        return ((double) (memoryMXBean.getHeapMemoryUsage().getUsed() + memoryMXBean.getNonHeapMemoryUsage().getUsed())
-                / (double) (memoryMXBean.getHeapMemoryUsage().getMax() + memoryMXBean.getNonHeapMemoryUsage().getMax())) * 100.0;
+        return ((float) (memoryMXBean.getHeapMemoryUsage().getUsed() + memoryMXBean.getNonHeapMemoryUsage().getUsed())
+                / (float) (memoryMXBean.getHeapMemoryUsage().getMax() + memoryMXBean.getNonHeapMemoryUsage().getMax())) * 100.0f;
     }
 
     private double getTotalMemory() {

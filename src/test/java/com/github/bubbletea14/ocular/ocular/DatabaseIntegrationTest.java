@@ -45,23 +45,23 @@ public class DatabaseIntegrationTest {
         assertEquals(cpu.getProcessorType(), savedCpu.getProcessorType());
         assertEquals(cpu.getProcessorSpeed(), savedCpu.getProcessorSpeed());
         assertEquals(cpu.getCount(), savedCpu.getCount());
-        assertEquals(cpu.getUptime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")), savedCpu.getUptime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")));
+        assertEquals(cpu.getUpTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")), savedCpu.getUpTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")));
     }
 
     @Test
     public void testMemoryDataPersistence() {
         Memory memory = new Memory();
         memory.setDateTime(LocalDateTime.now());
-        memory.setMemoryUsage(50.5);
-        memory.setMemorySpeed(1600);
-        memory.setMemAvailable(2048);
+        memory.setMemoryUsagePercentage(50.5f);
+        memory.setMemorySpeed(1600f);
+        memory.setFreeMemory(2048f);
 
         memoryRepository.save(memory);
 
         Memory savedMemory = memoryRepository.findByDateTime(memory.getDateTime());
-        assertEquals(50.5, savedMemory.getMemoryUsage());
-        assertEquals(1600, savedMemory.getMemorySpeed());
-        assertEquals(memory.getMemAvailable(), savedMemory.getMemAvailable());
+        assertEquals(memory.getMemoryUsagePercentage(), savedMemory.getMemoryUsagePercentage());
+        assertEquals(memory.getMemorySpeed(), savedMemory.getMemorySpeed());
+        assertEquals(memory.getFreeMemory(), savedMemory.getFreeMemory());
     }
 
     @Test
@@ -90,7 +90,6 @@ public class DatabaseIntegrationTest {
         user.setUsername(userName);
         user.setPassword("testPassword");
         user.setEmail("test@example.com");
-        LocalDate DOB = LocalDate.of(1985,9,7);
         user.setDob(LocalDate.of(1985,9,7));
 
         usersRepository.save(user);
