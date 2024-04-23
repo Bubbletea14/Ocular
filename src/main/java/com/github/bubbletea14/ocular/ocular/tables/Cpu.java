@@ -10,8 +10,9 @@ public class Cpu {
 
     private LocalDateTime dateTime;
     private String processorType;
-    private int processorSpeed;
+    private double processorSpeed;
     private Long count;
+    private Long processorUptime;
     private LocalDateTime upTime;
 
     public Cpu() {
@@ -20,7 +21,7 @@ public class Cpu {
 
     public Cpu(long id,
                 String processorType, 
-                int processorSpeed,
+                double processorSpeed,
                 Long count,
                 LocalDateTime upTime){
         this.id = id;
@@ -55,11 +56,11 @@ public class Cpu {
         this.processorType = processorType;
     }
 
-    public int getProcessorSpeed(){
+    public double getProcessorSpeed(){
         return processorSpeed;
     }
 
-    public void setProcessorSpeed(int processorSpeed) {
+    public void setProcessorSpeed(double processorSpeed) {
         this.processorSpeed = processorSpeed;
     }
 
@@ -77,6 +78,14 @@ public class Cpu {
 
     public void setUpTime(LocalDateTime upTime) {
         this.upTime = upTime;
+    }
+
+    public Long getProcessorUptime() {
+        return processorUptime;
+    }
+
+    public void setProcessorUptime(Long processorUptime) {
+        this.processorUptime = processorUptime;
     }
 
     @Override

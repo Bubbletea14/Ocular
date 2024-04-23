@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
-public interface CPURepository extends JpaRepository<Cpu, LocalDateTime> {
+public interface CPURepository extends JpaRepository<Cpu, Long> {
     Cpu findByDateTime(LocalDateTime dateTime);
     Optional<Cpu> findFirstByOrderByDateTimeDesc();
 }
