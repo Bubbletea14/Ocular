@@ -8,5 +8,7 @@ import java.util.Optional;
 @Repository
 public interface CPURepository extends JpaRepository<Cpu, Long> {
     Cpu findByDateTime(LocalDateTime dateTime);
+    //Find the most recent Cpu records
     Optional<Cpu> findFirstByOrderByDateTimeDesc();
+    
 }

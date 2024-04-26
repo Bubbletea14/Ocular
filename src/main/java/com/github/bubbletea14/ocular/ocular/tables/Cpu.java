@@ -32,6 +32,8 @@ public class Cpu {
     }
     
     // Getter and Setter
+    // Getter methods to access the state from other classes
+    // Setter methods to modify the state from other classes
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -64,7 +66,7 @@ public class Cpu {
         this.processorSpeed = processorSpeed;
     }
 
-    public float getCount() {
+    public long getCount() {
         return count;
     }
 

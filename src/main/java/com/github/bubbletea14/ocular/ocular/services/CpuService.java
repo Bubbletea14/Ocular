@@ -3,9 +3,12 @@ package com.github.bubbletea14.ocular.ocular.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.bubbletea14.ocular.ocular.tables.CPURepository;
 import com.github.bubbletea14.ocular.ocular.tables.Cpu;
 
 import java.time.LocalDateTime;
@@ -14,61 +17,49 @@ import java.time.Month;
 @Service
 public class CpuService {
 
-    private final List<Cpu> cpuList = new ArrayList<>();
-
-    //Insert fake Cpu data
-    public CpuService () {
-        cpuList.add(new Cpu(
-                    1,
-                    "AMD",
-                    10,
-                    4L,
-                    LocalDateTime.of(2024, Month.MARCH, 22, 12, 0)));
-        cpuList.add(new Cpu(
-                    2,
-                    "Nvidia",
-                    9,
-                    5L,
-                    LocalDateTime.of(2024, Month.MARCH, 23, 11, 1)));
+    private final CPURepository cpuRepository;
+    
+    @Autowired
+    public CpuService(CPURepository cpuRepository){
+        this.cpuRepository = cpuRepository;
     }
-
-    //Get cpu by Id
-    public Cpu getCpuById(Long id){
-        for (Cpu cpu : cpuList) {
-			if (cpu.getId()==id) {
-				return cpu;
-			}
-		}
-		throw new NoSuchElementException("CPU with ID " + id + " not found"); 
-    }
-
-    //Get cpu list
+    
+    // Get cpu list
     public List<Cpu> getCpuList() {
-        return cpuList;
+        return cpuRepository.findAll();
+    }
+
+    // Get Newest update CPU information
+    public Optional<Cpu> getNewestCpu(){
+        return cpuRepository.findFirstByOrderByDateTimeDesc();
+    }
+
+    // Get cpu by Id
+    public Optional<Cpu> getCpuById(Long id){
+        return cpuRepository.findById(id);
     }
 
     //Add Cpu
     public Cpu addCpu(Cpu cpu) {
-        cpuList.add(cpu);
-        return cpu;
+        return cpuRepository.save(cpu);
     }
 
-    //Update Cpu(Assume Cpu name is unqiue)
-    public Cpu updateCpu(Long id, Cpu newCpu) {
-        for (Cpu cpu : cpuList) {
-            if (cpu.getId() == id) {
-                cpu.setProcessorType(newCpu.getProcessorType());
-                cpu.setProcessorSpeed(newCpu.getProcessorSpeed());
-                cpu.setCount((long) newCpu.getCount());
-                cpu.setUpTime(newCpu.getUpTime());
-                return cpu;
-            }
-        }
-        return null; //If no cpu with the given ID is found
+    //Update Cpu
+    public Optional<Cpu> updateCpu(Long id, Cpu newCpu) {
+        return cpuRepository.findById(id).map(existingCpu -> {
+            existingCpu.setProcessorType(newCpu.getProcessorType());
+            existingCpu.setProcessorSpeed(newCpu.getProcessorSpeed());
+            existingCpu.setCount(newCpu.getCount());
+            existingCpu.setUpTime(newCpu.getUpTime());
+            return cpuRepository.save(existingCpu);
+        });
     }
 
     //Delete Cpu
     public boolean deleteCpu(Long id) {
-       return cpuList.removeIf(cpu -> cpu.getId() == id);
+        if (cpuRepository.existsById(id)) {
+            cpuRepository.deleteById(id);
+        } 
+       return true;
     }
 }

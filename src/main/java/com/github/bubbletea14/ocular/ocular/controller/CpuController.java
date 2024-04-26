@@ -1,6 +1,7 @@
 package com.github.bubbletea14.ocular.ocular.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,26 +31,28 @@ public class CpuController {
         this.cpuService = cpuService;
     }
 
+    //Retrieve Cpu
     @GetMapping
     public List<Cpu> getCpu() {
         return cpuService.getCpuList();
     }
 
-   
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cpu addCpu(@RequestBody Cpu cpu) {
         return cpuService.addCpu(cpu);
     }
 
+    //Retrieve specific CPU Metric
     @GetMapping("/{id}")
-    public Cpu getCpuById(@PathVariable Long id) {
+    public Optional<Cpu> getCpuById(@PathVariable Long id) {
         return cpuService.getCpuById(id);
     }
 
+    //
     @PutMapping("/{id}")
-    public Cpu updateCpu(@PathVariable Long id, @RequestBody Cpu cpu){
-       return cpuService.updateCpu(id,cpu);
+    public Optional<Cpu> updateCpu(@PathVariable Long id, @RequestBody Cpu cpu){
+        return cpuService.updateCpu(id,cpu);
     }
 
     @DeleteMapping("/{id}")
