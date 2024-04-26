@@ -15,8 +15,8 @@ public class ProcessesService {
     private final List<Processes> processesList = new ArrayList<>();
 
     public ProcessesService() {
-        processesList.add(new Processes(1L, "Chrome"));
-        processesList.add(new Processes(2L, "Discord"));
+        processesList.add(new Processes(1, "Chrome"));
+        processesList.add(new Processes(2, "Discord"));
     }
 
     public Processes getProcessByPid (long pId) {

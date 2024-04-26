@@ -52,7 +52,7 @@ public class TableObjectTests {
     public void ProcessesTest() {
         LocalDateTime currentTime = LocalDateTime.now();
         processes.setDateTime(currentTime);
-        processes.setPId(123L);
+        processes.setPId(123);
         processes.setName("ProcessName");
         processes.setCpuPercent(50);
         processes.setMemPercent(30);

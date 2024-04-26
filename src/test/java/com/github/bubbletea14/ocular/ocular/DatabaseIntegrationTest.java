@@ -68,7 +68,7 @@ public class DatabaseIntegrationTest {
     public void testProcessesDataPersistence() {
         Processes processes = new Processes();
         processes.setDateTime(LocalDateTime.now());
-        processes.setPId((long) (random.nextInt(1000) + 1));
+        processes.setPId(random.nextInt(1000) + 1);
         processes.setName("TestProcess - 1" + random.nextInt(100));
         processes.setCpuPercent(random.nextInt(101));
         processes.setMemPercent(random.nextInt(101));

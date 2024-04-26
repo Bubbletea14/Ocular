@@ -8,10 +8,11 @@ public class Processes {
     @Id
     private LocalDateTime dateTime;
 
-    private Long pId;
+    private int pId;
+    private int parentPId;
     private String name;
-    private int cpuPercent;
-    private int memPercent;
+    private double cpuPercent;
+    private double memPercent;
 
     //Construcor
     public Processes() {
@@ -19,13 +20,13 @@ public class Processes {
     }
 
     //Construcor
-    public Processes(Long pId, String name) {
+    public Processes(int pId, String name) {
         this.pId = pId;
         this.name = name;
     }
 
     //Construcor
-    public Processes (Long pId, String name, int cpuPercent, int memPercent) {
+    public Processes (int pId, String name, double cpuPercent, double memPercent) {
         this.pId = pId;
         this.name = name;
         this.cpuPercent = cpuPercent;
@@ -41,12 +42,20 @@ public class Processes {
         this.dateTime = dateTime;
     }
     
-    public Long getPId(){
+    public int getPId(){
         return pId;
     }
 
-    public void setPId(Long newPid){
+    public void setPId(int newPid){
         this.pId = newPid;
+    }
+
+    public int getParentPId() {
+        return parentPId;
+    }
+
+    public void setParentPId(int parentPId) {
+        this.parentPId = parentPId;
     }
 
     public String getName(){
@@ -57,19 +66,19 @@ public class Processes {
         this.name = name;
     }
 
-    public int getCpuPercent() {
+    public double getCpuPercent() {
         return cpuPercent;
     }
 
-    public void setCpuPercent(int cpuPercent) {
+    public void setCpuPercent(double cpuPercent) {
         this.cpuPercent = cpuPercent;
     }
 
-    public int getMemPercent() {
+    public double getMemPercent() {
         return memPercent;
     }
 
-    public void setMemPercent(int memPercent) {
+    public void setMemPercent(double memPercent) {
         this.memPercent = memPercent;
     }
 

@@ -7,7 +7,7 @@ import java.util.TimerTask;
 
 @Component
 public class MetricCollector {
-    private static final int POLL_SPEED = 15;
+    public static final int POLL_SPEED = 5;
 
     private final CpuCollector cpuCollector;
     private final MemoryCollector memoryCollector;
