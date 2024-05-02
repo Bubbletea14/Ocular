@@ -1,6 +1,7 @@
 package com.github.bubbletea14.ocular.ocular.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,10 @@ public class MemoryController {
     // Reference
     private final MemoryService memoryService;
 
+    // Constructor 
     @Autowired
     public MemoryController(MemoryService memoryService){
-        this.memoryService = new MemoryService();
+        this.memoryService = memoryService;
     }
 
     @GetMapping
@@ -40,12 +42,12 @@ public class MemoryController {
     }
 
     @GetMapping("/{id}")
-    public Memory getMemoryById(@PathVariable Long id) {
+    public Optional<Memory> getMemoryById(@PathVariable Long id) {
         return memoryService.getMemoryById(id);
     }
 
     @PutMapping("/{id}")
-    public Memory updateMemory(@PathVariable Long id,@RequestBody Memory memory){
+    public Optional<Memory> updateMemory(@PathVariable Long id,@RequestBody Memory memory){
        return memoryService.updateMemory(id,memory);
     }
 
