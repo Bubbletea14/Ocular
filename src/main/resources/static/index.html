@@ -87,15 +87,18 @@
     <!-- Accordion for Memory List -->
     <div class="accordion" onclick="toggleAccordion('memorySection')">Memory List</div>
     <div id="memorySection" class="accordion-content">
-        
         <h2>Memory Usage Chart</h2>
-        <canvas id="gaugeChart" width="200" height="200"></canvas>
+        <canvas id="gaugeChartMemory" width="200" height="200"></canvas>
+        <h2>Memory Line Chart</h2>
+        <canvas id="lineChartMemory" width="200" height="200"></canvas>
         <ul class="memoryList"></ul>
     </div>
 
     <!-- Accordion for CPU List -->
     <div class="accordion" onclick="toggleAccordion('cpuSection')">CPU List</div>
     <div id="cpuSection" class="accordion-content">
+        <h2>CPU Usage Chart</h2>
+        <canvas id="gaugeChartCpu" width="200" height="200"></canvas>
         <ul class="cpuList"></ul>
     </div>
 
@@ -104,14 +107,11 @@
     <script src="fetchMemory.js"></script>
     <script src="fetchCpu.js"></script>
 
-
-
     <script>
         function toggleAccordion(sectionId) {
             const section = document.getElementById(sectionId);
             section.classList.toggle('open');
         }
-
 
         //Fetch data from the Users API
         fetchUsers();

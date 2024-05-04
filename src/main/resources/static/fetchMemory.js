@@ -1,7 +1,11 @@
+let gaugeChartMemory;
+let lineChartMemory;
 
-// Global variable to hold the chart instance
-let gaugeChart;
 let memoryUsagePercentage;
+let lineMemoryUsagePercentage;
+
+let memoryUsedColor = '#EDEDED';
+let memoryFreeColor = '#EDEDED';
 
 // Function to fetch memory data and update the gauge chart
 function fetchMemory() {
@@ -10,60 +14,78 @@ function fetchMemory() {
         .then((memoryArray) => {
             // Sort the array to get the latest memory record
             memoryArray.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+
+            // Fetch the latest Memory record (last item after sorting)
             const latestMemory = memoryArray[memoryArray.length - 1];
 
             // Get the memory usage percentage
-            const memoryUsagePercentage = latestMemory.memoryUsagePercentage;
+            memoryUsagePercentage = latestMemory.memoryUsagePercentage;
+            lineMemoryUsagePercentage = latestMemory.memoryUsagePercentage;
 
-              // Clear and update memory list elements
-              const memoryListElements = document.querySelectorAll('.memoryList');
-              memoryListElements.forEach((memoryListElement) => {
-                  memoryListElement.innerHTML = ''; // Clear existing content
+            // Clear and update memory list elements
+            const memoryListElements = document.querySelectorAll('.memoryList');
+            memoryListElements.forEach((memoryListElement) => {
+                // Clear existing content
+                memoryListElement.innerHTML = ''; 
+                // Create a new list item for the latest Memory
+                const listMemoryItem = document.createElement('li');
+                listMemoryItem.style.whiteSpace = 'pre-line';
+                listMemoryItem.textContent =
+                    `Memory ID: ${latestMemory.id}\n` +
+                    `Total Memory: ${latestMemory.totalMemory}\n` +
+                    `Free Memory: ${latestMemory.freeMemory}\n` +
+                    `Used Memory: ${latestMemory.usedMemory}\n` +
+                    `Memory Speed: ${latestMemory.memorySpeed}\n` +
+                    `Memory Usage Percentage: ${latestMemory.memoryUsagePercentage}`;
   
-                  // Create a new list item for the latest Memory
-                  const listMemoryItem = document.createElement('li');
-                  listMemoryItem.style.whiteSpace = 'pre-line';
-                  listMemoryItem.textContent =
-                      `Memory ID: ${latestMemory.id}\n` +
-                      `Total Memory: ${latestMemory.totalMemory}\n` +
-                      `Free Memory: ${latestMemory.freeMemory}\n` +
-                      `Used Memory: ${latestMemory.usedMemory}\n` +
-                      `Memory Speed: ${latestMemory.memorySpeed}\n` +
-                      `Memory Usage Percentage: ${latestMemory.memoryUsagePercentage}`;
-  
-                  // Append the new list item to the list element
-                  memoryListElement.appendChild(listMemoryItem);
+                // Append the new list item to the list element
+                memoryListElement.appendChild(listMemoryItem);
               });
-              
-            // Define data for the chart
-            const chartData = {
-                datasets: [
+            
+            // Change the used color based on memory usage
+            if (memoryUsagePercentage >= 0 && memoryUsagePercentage <= 50) {
+                // Set color green
+                memoryUsedColor = '#00FF00';
+            } else if (memoryUsagePercentage > 50 &&  memoryUsagePercentage <=80){
+                // Set color yellow
+                memoryUsedColor = '#FFFF00';
+            } else if (memoryUsagePercentage > 80 &&  memoryUsagePercentage <=99){
+                // Set color red
+                memoryUsedColor = '#FF6384'
+            } else {
+                console.error('MemoryPercentage out of range: ', memoryUsagePercentage);
+                return -1;
+            }
+
+            // Find the gauge chart element
+            const gaugeChartElement = document.getElementById('gaugeChartMemory');
+
+            // Check gauge chart element
+            if (gaugeChartElement) {
+                // Get the canvas context
+                const ctx1 = gaugeChartElement.getContext('2d');
+                if (!gaugeChartMemory) {
+                    // Define data for the gauge chart
+                    const memoryGaugetData = {
+                    datasets: [
                     {
-                        data: [memoryUsagePercentage, 100 - memoryUsagePercentage], // Used and free memory
-                        backgroundColor: ['#FF6384', '#EDEDED'],
+                        data: [memoryUsagePercentage, 100 - memoryUsagePercentage],
+                        backgroundColor: [memoryUsedColor, memoryFreeColor],
                         borderWidth: 0,
                     },
                 ],
             };
-
-
-            // Find the gauge chart element
-            const chartElement = document.getElementById('gaugeChart');
-            if (chartElement) {
-                const ctx = chartElement.getContext('2d'); // Get the canvas context
-
-                if (typeof gaugeChart === "undefined") {
-                    // Create the chart if it doesn't exist
-                    gaugeChart = new Chart(ctx, {
+                    // Create the gauge chart if it doesn't exist
+                    gaugeChartMemory = new Chart(ctx1, {
                         type: 'doughnut',
-                        data: chartData,
+                        data: memoryGaugetData,
                         options: {
                             responsive: true,
                             maintainAspectRatio: true,
                             aspectRatio:1,
                             rotation: -90, // Start angle to create a semicircle
                             circumference: 180, // Creates a semicircle
-                            cutout: '50%', // Inner cutout for a gauge effect
+                            cutout: '30%', // Inner cutout for a gauge effect
                             plugins: {
                                 legend: { display: false },
                                 title: { display: true, text: "Memory Usage Gauge" },
@@ -72,12 +94,73 @@ function fetchMemory() {
                     });
                 } else {
                     // Update the existing chart
-                    gaugeChart.data.datasets[0].data = [memoryUsagePercentage, 100 - memoryUsagePercentage];
-                    gaugeChart.update(); // Trigger re-rendering
+                    gaugeChartMemory.data.datasets[0].data = [memoryUsagePercentage, 100 - memoryUsagePercentage];
+                    gaugeChartMemory.data.datasets[0].backgroundColor = [memoryUsedColor, memoryFreeColor];
+                    gaugeChartMemory.update(); // Trigger re-rendering
+
                 }
             } else {
                 console.error("Gauge chart element not found.");
             }
+
+            // Find the line chart element
+            const lineChartElement = document.getElementById('lineChartMemory');
+
+            if (lineChartElement) {
+                // Get the canvns element
+                const ctx2 = lineChartElement.getContext('2d');
+                if (!lineChartMemory) {
+                    // Genereate labels:
+                    const labels = [ ];
+
+                    for (let i = 1; i<= 10; i++) {
+                        labels.push(`Label${i}`);
+                    };
+
+                    // Define data for the line chart
+                    const memoryLineData = {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Memory Usage",
+                                data: [lineMemoryUsagePercentage],
+                                fill: false,
+                                borderColor: 'rgb(75,192,192)',
+                                tension: 0.1
+                            },
+                        ],
+                    };
+
+                    // Create the line chart if it doesn't exist
+                    lineChartMemory = new Chart(ctx2, {
+                        type: 'line',
+                        data: memoryLineData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    suggestedMax: 100,
+                                },
+                            },
+                        },
+                    });
+                } else {
+                    // Add new data to the chart
+                    lineChartMemory.data.datasets[0].data.push(lineMemoryUsagePercentage);
+
+                    // Remove oldest data if more than 10 items
+                    if (lineChartMemory.data.datasets[0].data.length > 10) {
+                        lineChartMemory.data.datasets[0].data.shift(); // Remove the first item
+                    }
+
+                    lineChartMemory.update(); // Trigger re-rendering
+                }
+            } else {
+                console.error("Line chart element not found.");
+            }
+            
         })
 
         // Chart.register({
@@ -94,9 +177,7 @@ function fetchMemory() {
         //     },
         // })
 
-        .catch((error) => {
-            console.error("Error fetching memory data:", error);
-        });
+        .catch(error => console.error('Error fetching Memory data:', error));
 
         
 }
