@@ -6,10 +6,9 @@ import jakarta.persistence.*;
 @Entity
 public class Processes {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private LocalDateTime dateTime;
+    private Long pId;
 
-    private long pId;
+    private LocalDateTime dateTime;
     private long parentPId;
     private String name;
     private double cpuPercent;

@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-//public interface ProcessesRepository extends JpaRepository<Processes, LocalDateTime> {
 public interface ProcessesRepository extends JpaRepository<Processes, Long> {
     Processes findByDateTime(LocalDateTime dateTime);
     List<Processes> findAllByDateTimeBetween(LocalDateTime starTime,LocalDateTime endTime);
     Processes findFirstByOrderByDateTimeDesc();
     List<Processes> findByDateTimeBefore(LocalDateTime thresholdTime);
+    Optional<Processes> findBypId(long pId);
 }

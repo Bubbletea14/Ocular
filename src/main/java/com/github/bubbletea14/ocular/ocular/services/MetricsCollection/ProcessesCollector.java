@@ -30,7 +30,6 @@ public class ProcessesCollector {
     public void collectAndSaveMetrics() {
         float totalMem = getTotalMemoryInBytes();
         List<OSProcess> processes = getOsProcesses();
-        //System.out.format("%-25s%-25s%-25s%-25s%-25s%n", "Name:","PID:","PPId:", "CPU %:", "Mem %:");
         for (OSProcess process : processes) {
             double cpuPercent = process.getProcessCpuLoadBetweenTicks(process);
             double memPercent = (double) process.getResidentSetSize() / totalMem * 100;
@@ -55,7 +54,7 @@ public class ProcessesCollector {
     private List<OSProcess> getOsProcesses() {
         SystemInfo systemInfo = new SystemInfo();
         OperatingSystem os = systemInfo.getOperatingSystem();
-        return os.getProcesses(ProcessFiltering.VALID_PROCESS, ProcessSorting.RSS_DESC, 30);
+        return os.getProcesses(ProcessFiltering.VALID_PROCESS, ProcessSorting.RSS_DESC, 50);
     }
 
     private float getTotalMemoryInBytes() {
