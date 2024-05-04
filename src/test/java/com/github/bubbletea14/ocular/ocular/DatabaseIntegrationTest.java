@@ -41,6 +41,7 @@ public class DatabaseIntegrationTest {
         cpu.setProcessorSpeed(random.nextInt(4001) + 1000);
         cpu.setCount(random.nextInt(16) + 1);
         cpu.setUpTime(LocalDateTime.now());
+        cpu.setProcessorUptime(1L);
 
         cpuRepository.save(cpu);
 
@@ -48,6 +49,7 @@ public class DatabaseIntegrationTest {
         assertEquals(cpu.getProcessorType(), savedCpu.getProcessorType());
         assertEquals(cpu.getProcessorSpeed(), savedCpu.getProcessorSpeed());
         assertEquals(cpu.getCount(), savedCpu.getCount());
+        assertEquals(cpu.getProcessorUptime(), savedCpu.getProcessorUptime());
         assertEquals(cpu.getUpTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")), savedCpu.getUpTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")));
     }
 

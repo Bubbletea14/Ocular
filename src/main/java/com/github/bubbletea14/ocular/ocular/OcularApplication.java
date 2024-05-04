@@ -1,5 +1,6 @@
 package com.github.bubbletea14.ocular.ocular;
 
+import com.github.bubbletea14.ocular.ocular.Classes.SystemTrayManager;
 import com.github.bubbletea14.ocular.ocular.services.MetricsCollection.*;
 import com.github.bubbletea14.ocular.ocular.tables.*;
 import jakarta.annotation.PostConstruct;
@@ -8,30 +9,31 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SpringBootApplication
 @EnableScheduling
 public class OcularApplication {
 	private final MetricCollector metricCollector;
+	private static final Logger logger = LoggerFactory.getLogger(MetricCollector.class);
 
 	@Autowired
 	public OcularApplication(MetricCollector metricCollector) {
-		System.out.println("Create MC");
 		this.metricCollector = metricCollector;
-		System.out.println("MC Created");
 	}
 
 	public static void main(String[] args) 
 	{
 		SpringApplication.run(OcularApplication.class, args);
-		System.out.println("Hello");
 	}
 
 	@PostConstruct
 	public void startMetricCollection() {
-		System.out.println("StartMC");
 		metricCollector.startCollectingMetrics();
-		System.out.println("FinishMC");
+		logger.info("Metrics collector started.");
+		SystemTrayManager trayManager = new SystemTrayManager(metricCollector);
+		trayManager.createSystemTrayIcon();
 	}
 
 	@Bean
