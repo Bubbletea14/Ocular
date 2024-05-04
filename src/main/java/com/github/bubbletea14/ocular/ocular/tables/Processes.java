@@ -6,34 +6,36 @@ import jakarta.persistence.*;
 @Entity
 public class Processes {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private LocalDateTime dateTime;
 
-    private int pId;
-    private int parentPId;
+    private long pId;
+    private long parentPId;
     private String name;
     private double cpuPercent;
     private double memPercent;
 
-    //Construcor
     public Processes() {
 
     }
 
-    //Construcor
-    public Processes(int pId, String name) {
+    // Construcor
+    public Processes(long pId, 
+                    long parentPId, 
+                    String name,
+                    double cpuPercent,
+                    double memPercent) {
         this.pId = pId;
-        this.name = name;
-    }
-
-    //Construcor
-    public Processes (int pId, String name, double cpuPercent, double memPercent) {
-        this.pId = pId;
+        this.parentPId = parentPId;
         this.name = name;
         this.cpuPercent = cpuPercent;
         this.memPercent = memPercent;
     }
 
+
     // Getter and Setter
+    // Getter methods to access the state from other classes
+    // Setter methods to modify the state from other classes
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -42,19 +44,19 @@ public class Processes {
         this.dateTime = dateTime;
     }
     
-    public int getPId(){
+    public long getPId(){
         return pId;
     }
 
-    public void setPId(int newPid){
+    public void setPId(long newPid){
         this.pId = newPid;
     }
 
-    public int getParentPId() {
+    public long getParentPId() {
         return parentPId;
     }
 
-    public void setParentPId(int parentPId) {
+    public void setParentPId(long parentPId) {
         this.parentPId = parentPId;
     }
 
@@ -80,13 +82,5 @@ public class Processes {
 
     public void setMemPercent(double memPercent) {
         this.memPercent = memPercent;
-    }
-
-    @Override
-    public String toString () {
-        return "Processes {" + 
-                "PID=" + pId +
-                ", Name=" + name + 
-                '}';
     }
 }

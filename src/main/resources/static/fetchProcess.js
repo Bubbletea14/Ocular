@@ -9,7 +9,11 @@
                         processListElement.innerHTML = '';
                         processes.forEach(process => {
                             const listProcessItem = document.createElement('li');
-                            listProcessItem.textContent = `PID: ${process.pid}, Name: ${process.name}`;
+                            listProcessItem.textContent = `PID: ${process.pId}`,
+                                                        `Parent ID: ${process.parentPID}`,
+                                                        `Name: ${process.name}`,
+                                                        `CPU usage: ${process.cpuPercent}`,
+                                                        `Memory usage: ${process.memPercent}`;
                             processListElement.appendChild(listProcessItem);
                         }); 
                     });

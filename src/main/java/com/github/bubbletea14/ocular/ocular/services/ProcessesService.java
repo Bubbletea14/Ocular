@@ -3,52 +3,56 @@ package com.github.bubbletea14.ocular.ocular.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.bubbletea14.ocular.ocular.tables.Processes;
+import com.github.bubbletea14.ocular.ocular.tables.ProcessesRepository;
 
 
 @Service
 public class ProcessesService {
 
-    private final List<Processes> processesList = new ArrayList<>();
+    private final ProcessesRepository processesRepository;
 
-    public ProcessesService() {
-        processesList.add(new Processes(1, "Chrome"));
-        processesList.add(new Processes(2, "Discord"));
+    @Autowired
+    public ProcessesService(ProcessesRepository processesRepository){
+        this.processesRepository = processesRepository;
     }
 
-    public Processes getProcessByPid (long pId) {
-        for (Processes process: processesList) {
-            if (process.getPId() == pId) {
-                return process;
-            }
-        }
-        throw new NoSuchElementException("Processes with PID " + pId + " not found"); 
-    }
-
+    // Get Processes List
     public List<Processes> getProcesses() {
-			return processesList;
-	}	
-    
+        return processesRepository.findAll();
+    }	
+
+    // Get Processes by pId
+    public Optional<Processes> getProcessByPid (long pId) {
+        return processesRepository.findById(pId);
+    }
+
+    // Add new processes
     public Processes addProcess(Processes process) {
-        processesList.add(process);
-        return process;
+        return processesRepository.save(process);
     }	
 	
-    public Processes updateProcess(Long pId, Processes newProcess) {
-        for (Processes process : processesList) {
-            if (process.getPId()== pId) {
-                process.setName(newProcess.getName());
-                return process;
-            }
-        }
-        return null; //If no process with the given PID founded 
+    // Update Processes
+    public Optional<Processes> updateProcess(Long pId, Processes newProcess) {
+        return processesRepository.findById(pId).map(existingProcesses -> {
+            existingProcesses.setName(newProcess.getName());
+            existingProcesses.setCpuPercent(newProcess.getCpuPercent());
+            existingProcesses.setMemPercent(newProcess.getMemPercent());            
+            return processesRepository.save(existingProcesses);
+        });
+
     }
 
     public boolean deleteProcess(Long pId) {
-        return processesList.removeIf(process -> process.getPId() == (pId));
+        if (processesRepository.existsById(pId)) {
+            processesRepository.deleteById(pId);
+        }   
+        return true;
     }
 		
 }

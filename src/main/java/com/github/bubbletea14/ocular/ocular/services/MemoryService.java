@@ -26,17 +26,17 @@ public class MemoryService {
         return memoryRepository.findAll();
     }
 
-    //Get Memory by Id
+    // Get Memory by Id
     public Optional<Memory> getMemoryById(long id) {
         return memoryRepository.findById(id);
     }
 
-    //Add new memory
+    // Add new memory
     public Memory addMemory(Memory memory) {
         return memoryRepository.save(memory);
     }
     
-    //Update memory
+    // Update memory
     public Optional<Memory> updateMemory(Long id, Memory newMemory) {
         return memoryRepository.findById(id).map(existingMemory -> {
             existingMemory.setTotalMemory(newMemory.getTotalMemory());

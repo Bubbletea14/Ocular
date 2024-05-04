@@ -1,6 +1,7 @@
 package com.github.bubbletea14.ocular.ocular.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,10 @@ public class ProcessesController {
     // Reference
     private final ProcessesService processesService;
 
-    @Autowired
     // Constructor
+    @Autowired
     public ProcessesController(ProcessesService processesService){
-        this.processesService = new ProcessesService();
+        this.processesService = processesService;
     }
 
     @GetMapping
@@ -43,12 +44,12 @@ public class ProcessesController {
     }
 
     @GetMapping("/{pId}")
-    public Processes getProcessByPid(@PathVariable Long pId) {
+    public Optional<Processes> getProcessByPid(@PathVariable Long pId) {
         return processesService.getProcessByPid(pId);
     }
 
     @PutMapping("/{pId}")
-    public Processes updateProcess(@PathVariable Long pId, @RequestBody Processes process) {
+    public Optional<Processes> updateProcess(@PathVariable Long pId, @RequestBody Processes process) {
        return processesService.updateProcess(pId, process);
     }
 

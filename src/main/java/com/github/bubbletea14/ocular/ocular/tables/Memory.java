@@ -20,7 +20,12 @@ public class Memory {
     }
 
     // Constructor
-    public Memory (long id, float totalMemory, float freeMemory, float usedMemory, float memorySpeed, float memoryUsagePercentage) {
+    public Memory (long id, 
+                    float totalMemory, 
+                    float freeMemory,
+                    float usedMemory,
+                    float memorySpeed,
+                    float memoryUsagePercentage) {
         this.id = id;
         this.totalMemory = totalMemory;
         this.freeMemory = freeMemory;
@@ -29,7 +34,9 @@ public class Memory {
         this.memoryUsagePercentage = memoryUsagePercentage;
     }
 
-    //Getter and Setter
+    // Getter and Setter
+    // Getter methods to access the state from other classes
+    // Setter methods to modify the state from other classes
     public LocalDateTime getDateTime() {
         return dateTime;
     }
