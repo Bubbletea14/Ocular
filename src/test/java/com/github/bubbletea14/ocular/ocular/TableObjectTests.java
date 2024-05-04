@@ -70,13 +70,11 @@ public class TableObjectTests {
         user.setId(1L);
         user.setUsername("username");
         user.setPassword("password");
-        user.setDob(LocalDate.of(2000, 1, 1));
         user.setEmail("user@example.com");
         
         assertEquals(1L, user.getId());
         assertEquals("username", user.getUsername());
         assertEquals("password", user.getPassword());
-        assertEquals(LocalDate.of(2000, 1, 1), user.getDob());
         assertEquals("user@example.com", user.getEmail());
     }
 }

@@ -18,8 +18,8 @@ public class UsersService {
 		private final List<Users> usersList = new ArrayList<>();
 		
 		public UsersService(){
-			usersList.add(new Users(1L, "User1", "111", LocalDate.of(2010, Month.AUGUST, 5), "User1.User1@User1.com"));
-			usersList.add(new Users(2L, "User2", "222", LocalDate.of(2011, Month.JANUARY, 3), "User2.User2@User2.com"));
+			usersList.add(new Users(1L, "User1", "111", "User1.User1@User1.com"));
+			usersList.add(new Users(2L, "User2", "222", "User2.User2@User2.com"));
 		}
 
 		public Users getUserById(Long id){
@@ -48,7 +48,6 @@ public class UsersService {
 				if (user.getId() == id) {
 					user.setUsername(newUser.getUsername());
 					user.setPassword(newUser.getPassword());
-					user.setDob(newUser.getDob());
 					user.setEmail(newUser.getEmail());
 					return user; // return update object
 				} 

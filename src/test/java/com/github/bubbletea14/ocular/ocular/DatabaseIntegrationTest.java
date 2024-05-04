@@ -100,7 +100,6 @@ public class DatabaseIntegrationTest {
         user.setUsername(userName);
         user.setPassword("testPassword");
         user.setEmail("test@example.com");
-        user.setDob(LocalDate.of(1985,9,7));
 
         usersRepository.save(user);
 
@@ -108,6 +107,5 @@ public class DatabaseIntegrationTest {
         assertEquals(user.getUsername(), savedUser.getUsername());
         assertEquals(user.getPassword(), savedUser.getPassword());
         assertEquals(user.getEmail(), savedUser.getEmail());
-        assertEquals(user.getDob(), savedUser.getDob());
     }
 }
