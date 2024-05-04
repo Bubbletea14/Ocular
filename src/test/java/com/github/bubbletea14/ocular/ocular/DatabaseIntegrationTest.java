@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
 import java.util.Random;
 import com.github.bubbletea14.ocular.ocular.tables.*;
 
@@ -13,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest
 public class DatabaseIntegrationTest {
@@ -75,12 +78,17 @@ public class DatabaseIntegrationTest {
 
         processesRepository.save(processes);
 
-        Processes savedProcesses = processesRepository.findByDateTime(processes.getDateTime());
-        assertEquals(processes.getPId(), savedProcesses.getPId());
-        assertEquals(processes.getName(), savedProcesses.getName());
-        assertEquals(processes.getCpuPercent(), savedProcesses.getCpuPercent());
-        assertEquals(processes.getMemPercent(), savedProcesses.getMemPercent());
-        assertEquals(processes.getCpuPercent(), savedProcesses.getCpuPercent());
+        Optional<Processes> optionalProcess = processesRepository.findBypId(processes.getPId());
+        if(optionalProcess.isPresent()) {
+            Processes savedProcesses = optionalProcess.get();
+            assertEquals(processes.getPId(), savedProcesses.getPId());
+            assertEquals(processes.getName(), savedProcesses.getName());
+            assertEquals(processes.getCpuPercent(), savedProcesses.getCpuPercent());
+            assertEquals(processes.getMemPercent(), savedProcesses.getMemPercent());
+            assertEquals(processes.getCpuPercent(), savedProcesses.getCpuPercent());
+        } else{
+            fail("Failed to retrieve the saved process from the database.");
+        }
     }
 
     @Test
