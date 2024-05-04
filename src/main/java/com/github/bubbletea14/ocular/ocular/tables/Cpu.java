@@ -14,6 +14,7 @@ public class Cpu {
     private Long count;
     private Long processorUptime;
     private LocalDateTime upTime;
+    private double processorUsage;
 
     public Cpu() {
 
@@ -88,6 +89,14 @@ public class Cpu {
 
     public void setProcessorUptime(Long processorUptime) {
         this.processorUptime = processorUptime;
+    }
+
+    public double getProcessorUsage() {
+        return processorUsage;
+    }
+
+    public void setProcessorUsage(double processorUsage) {
+        this.processorUsage = processorUsage;
     }
 
     @Override

@@ -35,17 +35,18 @@ public class TableObjectTests {
 
     @Test
     public void CpuTest() {
-        cpu.setDateTime(LocalDateTime.now());
+        final LocalDateTime time = LocalDateTime.now();
+        cpu.setDateTime(time);
         cpu.setProcessorType("ProcessorType");
         cpu.setProcessorSpeed(2000);
         cpu.setCount(4);
-        //cpu.setUpTime(LocalDateTime.now());
+        cpu.setProcessorUptime(1L);
         
-        assertEquals(LocalDateTime.now(), cpu.getDateTime());
+        assertEquals(time, cpu.getDateTime());
         assertEquals("ProcessorType", cpu.getProcessorType());
         assertEquals(2000, cpu.getProcessorSpeed());
         assertEquals(4, cpu.getCount());
-        //assertEquals(LocalDateTime.now(), cpu.getUptime());
+        assertEquals(1L, cpu.getProcessorUptime());
     }
 
     @Test

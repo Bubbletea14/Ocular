@@ -11,8 +11,9 @@ import com.github.bubbletea14.ocular.ocular.tables.*;
 
 @Component
 public class MemoryCollector {
-
     private final MemoryRepository memoryRepository;
+    SystemInfo systemInfo = new SystemInfo();
+    GlobalMemory globalMemory = systemInfo.getHardware().getMemory();
 
     @Autowired
     public MemoryCollector(MemoryRepository memoryRepository) {
@@ -37,27 +38,19 @@ public class MemoryCollector {
     }
 
     private float getTotalMemory() {
-        SystemInfo systemInfo = new SystemInfo();
-        GlobalMemory globalMemory = systemInfo.getHardware().getMemory();
         return (float) globalMemory.getTotal() / (1024 * 1024 * 1024);
     }
 
     private float getAvailableMemory() {
-        SystemInfo systemInfo = new SystemInfo();
-        GlobalMemory globalMemory = systemInfo.getHardware().getMemory();
         return (float) globalMemory.getAvailable() / (1024 * 1024 * 1024);
     }
 
     private float getUsedMemory() {
-        SystemInfo systemInfo = new SystemInfo();
-        GlobalMemory globalMemory = systemInfo.getHardware().getMemory();
         long usedMemoryBytes = globalMemory.getTotal() - globalMemory.getAvailable();
         return (float) usedMemoryBytes / (1024 * 1024 * 1024);
     }
 
     private float getMemorySpeed() {
-        SystemInfo systemInfo = new SystemInfo();
-        GlobalMemory globalMemory = systemInfo.getHardware().getMemory();
         for (PhysicalMemory memory : globalMemory.getPhysicalMemory()) {
             long speed = memory.getClockSpeed();
             return (float) speed / 1_000_000; // Convert to megahertz and return as float
