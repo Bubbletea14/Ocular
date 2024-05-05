@@ -23,7 +23,7 @@ public class CpuService {
     public CpuService(CPURepository cpuRepository){
         this.cpuRepository = cpuRepository;
     }
-    
+
     // Get cpu list
     public List<Cpu> getCpuList() {
         return cpuRepository.findAll();
@@ -49,6 +49,7 @@ public class CpuService {
         return cpuRepository.findById(id).map(existingCpu -> {
             existingCpu.setProcessorType(newCpu.getProcessorType());
             existingCpu.setProcessorSpeed(newCpu.getProcessorSpeed());
+            existingCpu.setProcessorUsage(newCpu.getProcessorUsage());
             existingCpu.setCount(newCpu.getCount());
             existingCpu.setUpTime(newCpu.getUpTime());
             return cpuRepository.save(existingCpu);

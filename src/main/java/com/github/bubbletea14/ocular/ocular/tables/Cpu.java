@@ -23,11 +23,13 @@ public class Cpu {
     public Cpu(long id,
                 String processorType, 
                 double processorSpeed,
+                double processorUsage,
                 Long count,
                 LocalDateTime upTime){
         this.id = id;
         this.processorType = processorType;
         this.processorSpeed = processorSpeed;
+        this.processorUsage = processorUsage;
         this.count = count;
         this.upTime = upTime;
     }

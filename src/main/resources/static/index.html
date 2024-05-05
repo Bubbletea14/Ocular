@@ -50,28 +50,17 @@
 </head>
 
 <body>
-    <!-- <script src = "fetchUsers.js"> </script>
-    <script src = "fetchProcess.js"> </script>
-    <script src = "fetchMemory.js"> </script>
-    <script src = "fetchCpu.js"> </script>
-
-    <h1 style="color:blueviolet;">Welcome to Ocular</h1>
-    <h1>User List</h1>
-    <ul class="userList"></ul>
-
-    <h1>Process List</h1>
-    <ul class="processList"></ul>
-
-    <h1>Memory List</h1>
-    <ul class="memoryList"></ul>
-    <h2>Memory Usage chart</h2>
-    <div style="max-width: 200px; max-height: 200px;">
-        <canvas id="gaugeChart" width="200" height="200"></canvas>
-    </div>
-
-    <h1>Cpu List</h1>
-    <ul class="cpuList"></ul> -->
     <h1>Welcome to Ocular</h1>
+
+    <!-- Accordion for guage chart display -->
+    <div class="accordion" onclick="toggleAccordion('gaugeChartSection')"> General Usage Information</div>
+    <div id="gaugeChartSection" class="accordion-content">
+        <h2>Memory Usage Chart</h2>
+        <canvas id="gaugeChartMemory" width="200" height="200"></canvas>
+        <h2>CPU Usage Chart</h2>
+        <canvas id="gaugeChartCpu" width="200" height="200"></canvas>
+
+    </div>
 
     <!-- Accordion for User List -->
     <div class="accordion" onclick="toggleAccordion('userSection')">User List</div>
@@ -79,34 +68,38 @@
         <ul class="userList"></ul>
     </div>
 
-    <!-- Accordion for Process List -->
-    <div class="accordion" onclick="toggleAccordion('processSection')">Process List</div>
-    <div id="processSection" class="accordion-content">
-        <ul class="processList"></ul>
-    </div>
-
-    <!-- Accordion for Memory List -->
-    <div class="accordion" onclick="toggleAccordion('memorySection')">Memory List</div>
+    <!-- Accordion for Memory and CPU List -->
+    <div class="accordion" onclick="toggleAccordion('memorySection')">Memory and CPU Information</div>
     <div id="memorySection" class="accordion-content">
-        <h2>Memory Usage Chart</h2>
-        <canvas id="gaugeChartMemory" width="200" height="200"></canvas>
         <h2>Memory Line Chart</h2>
         <canvas id="lineChartMemory" width="200" height="200"></canvas>
         <ul class="memoryList"></ul>
+        <h2>CPU Line Chart</h2>
+        <canvas id="lineChartCpu" width="200" height="200"></canvas>
+        <ul class="cpuList"></ul>
+        
     </div>
 
-    <!-- Accordion for CPU List -->
+    <!-- Accordion for CPU List
     <div class="accordion" onclick="toggleAccordion('cpuSection')">CPU List</div>
     <div id="cpuSection" class="accordion-content">
-        <h2>CPU Usage Chart</h2>
-        <canvas id="gaugeChartCpu" width="200" height="200"></canvas>
+
+        <h2>CPU Line Chart</h2>
+        <canvas id="lineChartCpu" width="200" height="200"></canvas>
         <ul class="cpuList"></ul>
+    </div> -->
+
+    <!-- Accordion for Process List -->
+    <div class="accordion" onclick="toggleAccordion('processSection')">Process List</div>
+    <div id="processSection" class="accordion-content">
+    <div class="processListContainer">   
+        <ul class="processList"></ul>
     </div>
 
     <script src="fetchUsers.js"></script>
-    <script src="fetchProcess.js"></script>
     <script src="fetchMemory.js"></script>
     <script src="fetchCpu.js"></script>
+    <script src="fetchProcess.js"></script>
 
     <script>
 
@@ -118,16 +111,15 @@
         //Fetch data from the Users API
         fetchUsers();
         setInterval(fetchUsers,5000);
-        //Fetch data from the processes API 
-        fetchProcess();
-        setInterval(fetchProcess,5000);
         //Fetch data from the Memory API 
         fetchMemory();
         setInterval(fetchMemory,5000);
         //Fetch data from the Cpu API
         fetchCpu();
         setInterval(fetchCpu,5000);
-
+        //Fetch data from the processes API 
+        fetchProcess();
+        setInterval(fetchProcess,5000);
     </script>
         
         

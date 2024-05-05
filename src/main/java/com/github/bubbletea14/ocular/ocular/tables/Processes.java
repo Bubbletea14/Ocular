@@ -1,13 +1,16 @@
 package com.github.bubbletea14.ocular.ocular.tables;
 
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 @Entity
 public class Processes {
     @Id
+    @JsonProperty("pId")
     private Long pId;
-
     private LocalDateTime dateTime;
     private long parentPId;
     private String name;

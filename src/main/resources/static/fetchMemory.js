@@ -58,25 +58,24 @@ function fetchMemory() {
             }
 
             // Find the gauge chart element
-            const gaugeChartElement = document.getElementById('gaugeChartMemory');
-
+            const memoryGaugeChartElement = document.getElementById('gaugeChartMemory');
             // Check gauge chart element
-            if (gaugeChartElement) {
+            if (memoryGaugeChartElement) {
                 // Get the canvas context
-                const ctx1 = gaugeChartElement.getContext('2d');
+                const ctx1Memory = memoryGaugeChartElement.getContext('2d');
                 if (!gaugeChartMemory) {
                     // Define data for the gauge chart
                     const memoryGaugetData = {
-                    datasets: [
-                    {
-                        data: [memoryUsagePercentage, 100 - memoryUsagePercentage],
-                        backgroundColor: [memoryUsedColor, memoryFreeColor],
-                        borderWidth: 0,
-                    },
-                ],
-            };
+                        datasets: [
+                            {
+                                data: [memoryUsagePercentage, 100 - memoryUsagePercentage],
+                                backgroundColor: [memoryUsedColor, memoryFreeColor],
+                                borderWidth: 0,
+                            },
+                        ],
+                    };
                     // Create the gauge chart if it doesn't exist
-                    gaugeChartMemory = new Chart(ctx1, {
+                    gaugeChartMemory = new Chart(ctx1Memory, {
                         type: 'doughnut',
                         data: memoryGaugetData,
                         options: {
@@ -104,11 +103,10 @@ function fetchMemory() {
             }
 
             // Find the line chart element
-            const lineChartElement = document.getElementById('lineChartMemory');
-
-            if (lineChartElement) {
+            const memoryLineChartElement = document.getElementById('lineChartMemory');
+            if (memoryLineChartElement) {
                 // Get the canvns element
-                const ctx2 = lineChartElement.getContext('2d');
+                const ctx2Memory = memoryLineChartElement.getContext('2d');
                 if (!lineChartMemory) {
                     // Genereate labels:
                     const labels = [ ];
@@ -132,7 +130,7 @@ function fetchMemory() {
                     };
 
                     // Create the line chart if it doesn't exist
-                    lineChartMemory = new Chart(ctx2, {
+                    lineChartMemory = new Chart(ctx2Memory, {
                         type: 'line',
                         data: memoryLineData,
                         options: {
@@ -149,12 +147,11 @@ function fetchMemory() {
                 } else {
                     // Add new data to the chart
                     lineChartMemory.data.datasets[0].data.push(lineMemoryUsagePercentage);
-
                     // Remove oldest data if more than 10 items
                     if (lineChartMemory.data.datasets[0].data.length > 10) {
-                        lineChartMemory.data.datasets[0].data.shift(); // Remove the first item
+                        // Remove the first item
+                        lineChartMemory.data.datasets[0].data.shift();
                     }
-
                     lineChartMemory.update(); // Trigger re-rendering
                 }
             } else {
