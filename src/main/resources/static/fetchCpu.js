@@ -1,5 +1,9 @@
 let gaugeChartCpu;
-let cpuUsagePercentage;
+let lineChartCpu;
+
+let processorUsage;
+let lineCpuUsage;
+
 let cpuUsedColor = '#EDEDED';
 let cpuFreeColor = '#EDEDED';
 
@@ -8,6 +12,10 @@ function fetchCpu() {
     fetch('/api/v1/Cpu')
         .then((response) => response.json())
         .then((cpuArray) => {
+
+            console.log("Fetched CPU data:", cpuArray); // Examine the raw data
+
+            
             // Sort the array by 'dateTime' property in ascending order
             cpuArray.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
 
@@ -15,7 +23,8 @@ function fetchCpu() {
             const latestCpu = cpuArray[cpuArray.length - 1];
             
             // Get the Cpu usage percentage
-            cpuUsagePercentage = latestCpu.cpuUsagePercentage;
+            processorUsage = latestCpu.processorUsage;
+            lineCpuUsage = latestCpu.processorUsage;
 
             // Clear and update cpu list elements
             const cpuListElements = document.querySelectorAll('.cpuList');
@@ -29,49 +38,50 @@ function fetchCpu() {
                     `CPU ID: ${latestCpu.id}\n` + 
                     `ProcessorType: ${latestCpu.processorType}\n` +
                     `ProcessorSpeed: ${latestCpu.processorSpeed}\n` + 
-                    `Count: ${latestCpu.count}\n` +
-                    `UpTime: ${latestCpu.upTime}\n`;
+                    `ProcessorUsage: ${latestCpu.processorUsage}\n` +
+                    `Count: ${latestCpu.count}`;
+                    // `UpTime: ${latestCpu.upTime}`;
                 
                 
                 // Append the new list item to the list element
                 cpuListElement.appendChild(listCpuItem);
             });
 
-            // Change the used color based on memory usage
-            if (cpuUsagePercentage >= 0 && cpuUsagePercentage <= 50) {
+            // Change the used color based on cpu usage
+            if (processorUsage >= 0 && processorUsage <= 50) {
                 // Set color green
                 cpuUsedColor = '#00FF00';
-            } else if (cpuUsagePercentage > 50 &&  cpuUsagePercentage <=80){
+            } else if (processorUsage > 50 &&  processorUsage <=80){
                 // Set color yellow
                 cpuUsedColor = '#FFFF00';
-            } else if (cpuUsagePercentage > 80 &&  cpuUsagePercentage <=99){
+            } else if (processorUsage > 80 &&  processorUsage <=99){
                 // Set color red
                 cpuUsedColor = '#FF6384'
             } else {
-                console.error('CpuPercentage out of range: ', cpuUsagePercentage);
-                // TEST
-                cpuUsagePercentage = 20;
-                cpuUsedColor = '#00FF00';
-                //return -1;
+                console.error('CpuPercentage out of range: ', processorUsage);
+                return;
             }
 
-            // Define data for the CPU chart 
-            const cpuChartData = {
-                datasets: [
-                    {
-                        data: [cpuUsagePercentage, 100 - cpuUsagePercentage],
-                        backgroundColor: [cpuFreeColor, cpuUsedColor],
-                        borderWidth: 0,
-                    },
-                ],
-            };
-
             // Find the gauge chart element
-            const chartElement = document.getElementById('gaugeChartCpu');
-            if (chartElement){
-                const ctx = chartElement.getContext('2d');
+            const cpuGaugeChartElement = document.getElementById('gaugeChartCpu');
+            // Check gauge chart element
+            if (cpuGaugeChartElement){
+                // Get the canvas context
+                const ctx1Cpu = cpuGaugeChartElement.getContext('2d');
                 if (!gaugeChartCpu){
-                    gaugeChartCpu = new Chart(ctx, {
+                    // Define data for the gauge chart
+                    const cpuChartData = {
+                        datasets: [
+                            {
+                                data: [processorUsage, 100 - processorUsage],
+                                backgroundColor: [cpuFreeColor, cpuUsedColor],
+                                borderWidth: 0,
+                            },
+                        ],
+                    };
+
+                    // Create the gauge chart if it doesn't exist
+                    gaugeChartCpu = new Chart(ctx1Cpu, {
                         type: 'doughnut',
                         data: cpuChartData,
                         options: {
@@ -89,7 +99,7 @@ function fetchCpu() {
                     });
                 } else {
                     // Update the existing color and chart
-                    gaugeChartCpu.data.datasets[0].data = [cpuUsagePercentage, 100 - cpuUsagePercentage];
+                    gaugeChartCpu.data.datasets[0].data = [processorUsage, 100 - processorUsage];
                     gaugeChartCpu.data.datasets[0].backgroundColor = [cpuUsedColor, cpuFreeColor];
                     gaugeChartCpu.update(); // Trigger re-rendering
                 }
@@ -97,6 +107,61 @@ function fetchCpu() {
                 console.error('Gauge chart element not found');
             }
 
+            // Find the line chart element
+            const cpuLineChartElement = document.getElementById('lineChartCpu');
+            if (cpuLineChartElement){
+                // Get the canvns element
+                const ctx2Cpu = cpuLineChartElement.getContext('2d');
+                if (!lineChartCpu) {
+                    // Generate labels:
+                    const labels = [];
+
+                    for (let i = 1; i<= 10; i++){
+                        labels.push(`Label${i}`);
+                    };
+
+                    // Define data for the line chart
+                    const cpuLineData = {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Cpu Usage",
+                                data: [lineCpuUsage],
+                                fill: false,
+                                borderColor: 'rgb(75,192,192)',
+                                tension: 0.1
+                            },
+                        ],
+                    };
+
+                    // Create the line chart if it doesn't exist 
+                    lineChartCpu = new Chart (ctx2Cpu, {
+                        type: 'line',
+                        data: cpuLineData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    suggestedMax: 100,
+                                },
+                            },
+                        },
+                    });
+                } else {
+                    // Add new data to the chart
+                    lineChartCpu.data.datasets[0].data.push(lineCpuUsage);
+                    // Remove oldest data if more than 10 items
+                    if (lineChartCpu.data.datasets[0].data.length > 10){
+                        // Remove the first item
+                        lineChartCpu.data.datasets[0].data.shift();
+                    }
+                    lineChartCpu.update();
+                }
+            } else {
+                console.error("Line chart element not found.");
+            }
         })
         .catch(error => console.error('Error fetching Cpu data:', error));
 }
