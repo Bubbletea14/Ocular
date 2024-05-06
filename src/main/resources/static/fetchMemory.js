@@ -31,12 +31,13 @@ function fetchMemory() {
                 const listMemoryItem = document.createElement('li');
                 listMemoryItem.style.whiteSpace = 'pre-line';
                 listMemoryItem.textContent =
-                    `Memory ID: ${latestMemory.id}\n` +
-                    `Total Memory: ${latestMemory.totalMemory}\n` +
-                    `Free Memory: ${latestMemory.freeMemory}\n` +
-                    `Used Memory: ${latestMemory.usedMemory}\n` +
-                    `Memory Speed: ${latestMemory.memorySpeed}\n` +
-                    `Memory Usage Percentage: ${latestMemory.memoryUsagePercentage}`;
+                    // `Memory ID: ${latestMemory.id}\n` +
+                    `Collection cycles:  5sec\n` +
+                    `Total Memory: ${latestMemory.totalMemory}  GB\n` +
+                    `Free Memory: ${latestMemory.freeMemory}    GB\n` +
+                    `Used Memory: ${latestMemory.usedMemory}    GB\n` +
+                    `Memory Speed: ${latestMemory.memorySpeed}  MHZ\n` +
+                    `Memory Usage Percentage: ${latestMemory.memoryUsagePercentage}%`;
   
                 // Append the new list item to the list element
                 memoryListElement.appendChild(listMemoryItem);
@@ -81,7 +82,7 @@ function fetchMemory() {
                         options: {
                             responsive: true,
                             maintainAspectRatio: true,
-                            aspectRatio:1,
+                            aspectRatio:4,
                             rotation: -90, // Start angle to create a semicircle
                             circumference: 180, // Creates a semicircle
                             cutout: '30%', // Inner cutout for a gauge effect
@@ -112,7 +113,7 @@ function fetchMemory() {
                     const labels = [ ];
 
                     for (let i = 1; i<= 10; i++) {
-                        labels.push(`Label${i}`);
+                        labels.push(`${i}`);
                     };
 
                     // Define data for the line chart
@@ -134,8 +135,8 @@ function fetchMemory() {
                         type: 'line',
                         data: memoryLineData,
                         options: {
-                            responsive: true,
                             maintainAspectRatio: true,
+                            responsive: true,
                             scales: {
                                 y: {
                                     beginAtZero: true,
