@@ -44,6 +44,7 @@ public class MetricCollector {
         if (timer != null) {
             timer.cancel();
         }
-        logger.info("Metrics collection stopped");
+        logger.info("Metrics collection stopped.");
+        logger.info("Closing Ocular.");
     }
 }
