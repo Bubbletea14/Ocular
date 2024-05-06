@@ -1,13 +1,12 @@
 package com.github.bubbletea14.ocular.ocular.services.MetricsCollection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-
 import oshi.SystemInfo;
 import oshi.hardware.GlobalMemory;
 import oshi.software.os.OSProcess;
@@ -19,8 +18,11 @@ import com.github.bubbletea14.ocular.ocular.tables.*;
 
 @Component
 public class ProcessesCollector {
-
+    private static final Logger logger = LoggerFactory.getLogger(MetricCollector.class);
     private final ProcessesRepository processesRepository;
+    SystemInfo systemInfo = new SystemInfo();
+    OperatingSystem os = systemInfo.getOperatingSystem();
+    GlobalMemory globalMemory = systemInfo.getHardware().getMemory();
 
     @Autowired
     public ProcessesCollector(ProcessesRepository processesRepository) {
@@ -32,7 +34,7 @@ public class ProcessesCollector {
         List<OSProcess> processes = getOsProcesses();
         for (OSProcess process : processes) {
             double cpuPercent = process.getProcessCpuLoadBetweenTicks(process);
-            double memPercent = (double) process.getResidentSetSize() / totalMem * 100;
+            double memPercent = (double) (process.getResidentSetSize() / totalMem) * 100;
             cpuPercent = Math.round(cpuPercent * 10.0) / 10.0;
             memPercent = Math.round(memPercent * 10.0) / 10.0;
 
@@ -44,36 +46,24 @@ public class ProcessesCollector {
             processesMetrics.setCpuPercent(cpuPercent);
             processesMetrics.setMemPercent(memPercent);
 
-            processesRepository.save(processesMetrics);
-            
-            //System.out.format("%-25s%-25s%-25s%-25s%-25s%n", processesMetrics.getName(),processesMetrics.getPId(),processesMetrics.getParentPId(),processesMetrics.getCpuPercent(),processesMetrics.getMemPercent());   
+            processesRepository.save(processesMetrics);  
         }
         System.out.println("");
     }
 
-    private List<OSProcess> getOsProcesses() {
-        SystemInfo systemInfo = new SystemInfo();
-        OperatingSystem os = systemInfo.getOperatingSystem();
+    private List<OSProcess> getOsProcesses() { 
         return os.getProcesses(ProcessFiltering.VALID_PROCESS, ProcessSorting.RSS_DESC, 50);
     }
 
-    private float getTotalMemoryInBytes() {
-        SystemInfo systemInfo = new SystemInfo();
-        GlobalMemory globalMemory = systemInfo.getHardware().getMemory();
-        return (float) globalMemory.getTotal() / (1024 * 1024 * 1024); //to get GB
+    private float getTotalMemoryInBytes() {        
+        return (float) globalMemory.getTotal(); // (1024 * 1024 * 1024); //to get GB
     }
 
-    //@Scheduled(fixedDelay = 20 * MetricCollector.POLL_SPEED * 1000) //Every 10 Cycles * Seconds each cycle was collected * 1000.
+    @Scheduled(fixedDelay = 2 * MetricCollector.POLL_SPEED * 1000) //Every 2 Cycles * Seconds each cycle was collected * 1000.
     public void cleanupOldProcesses() {
-        System.out.println("Cleanup Started.***************************************************************************************");
-        LocalDateTime thresholdTime = LocalDateTime.now().minusSeconds(20 * MetricCollector.POLL_SPEED);
+        LocalDateTime thresholdTime = LocalDateTime.now().minusSeconds(2 * MetricCollector.POLL_SPEED);
         List<Processes> oldProcesses = processesRepository.findByDateTimeBefore(thresholdTime);
-        for (Processes process : oldProcesses) {
-            System.out.println("Name: " + process.getName() + ", PID: " + process.getPId() + ", CPU %: " + process.getCpuPercent() + ", Memory %: " + process.getMemPercent());
-        }
-        //processesRepository.deleteAll(oldProcesses);
-        Processes newProcess = processesRepository.findFirstByOrderByDateTimeDesc();
-        System.out.println("DateTime: " + newProcess.getDateTime() + ", Name: " + newProcess.getName());
-        System.out.println("Cleanup completed.***********************************************************************************");
+        processesRepository.deleteAll(oldProcesses);
+        logger.info("Process Table cleanup complete.");
     }
 }

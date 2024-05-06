@@ -8,8 +8,6 @@ import oshi.hardware.CentralProcessor;
 import oshi.SystemInfo;
 import oshi.software.os.windows.WindowsOperatingSystem;
 import oshi.util.FormatUtil;
-import java.lang.management.ManagementFactory;
-import com.sun.management.OperatingSystemMXBean;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
