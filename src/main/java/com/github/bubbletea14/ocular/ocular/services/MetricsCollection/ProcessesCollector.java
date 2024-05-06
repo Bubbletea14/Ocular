@@ -32,7 +32,8 @@ public class ProcessesCollector {
     public void collectAndSaveMetrics() {
         float totalMem = getTotalMemoryInBytes();
         List<OSProcess> processes = getOsProcesses();
-        for (OSProcess process : processes) {
+        try {
+            for (OSProcess process : processes) {
             double cpuPercent = process.getProcessCpuLoadBetweenTicks(process);
             double memPercent = (double) (process.getResidentSetSize() / totalMem) * 100;
             cpuPercent = Math.round(cpuPercent * 10.0) / 10.0;
@@ -48,15 +49,27 @@ public class ProcessesCollector {
 
             processesRepository.save(processesMetrics);  
         }
-        System.out.println("");
+        } catch (Exception e) {
+            logger.error("Failed to collect processes data.", e);
+        }
     }
 
-    private List<OSProcess> getOsProcesses() { 
-        return os.getProcesses(ProcessFiltering.VALID_PROCESS, ProcessSorting.RSS_DESC, 50);
+    private List<OSProcess> getOsProcesses() {
+        try {
+            return os.getProcesses(ProcessFiltering.VALID_PROCESS, ProcessSorting.RSS_DESC, 50);
+        } catch (Exception e) {
+            logger.error("Error retrieving list of processes.", e);
+        } 
+        return null;
     }
 
-    private float getTotalMemoryInBytes() {        
-        return (float) globalMemory.getTotal(); // (1024 * 1024 * 1024); //to get GB
+    private float getTotalMemoryInBytes() {
+        try {
+            return (float) globalMemory.getTotal(); // (1024 * 1024 * 1024); //to get GB
+        } catch (Exception e) {
+            logger.error("Error retrieving total memory.", e);
+        }
+        return -1f;     
     }
 
     @Scheduled(fixedDelay = 2 * MetricCollector.POLL_SPEED * 1000) //Every 2 Cycles * Seconds each cycle was collected * 1000.

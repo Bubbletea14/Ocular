@@ -11,4 +11,5 @@ public interface MemoryRepository extends JpaRepository<Memory,Long>{
    List<Memory> findAllByDateTimeAfter(LocalDateTime dateTime);
    Optional<Memory> findFirstByOrderByDateTimeDesc();
    Memory findByDateTime(LocalDateTime dateTime);
+   List<Memory> findByDateTimeBefore(LocalDateTime thresholdTime);
 }
