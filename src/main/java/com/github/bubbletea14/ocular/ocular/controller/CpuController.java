@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.bubbletea14.ocular.ocular.services.CpuService;
 import com.github.bubbletea14.ocular.ocular.tables.Cpu;
 
+import oshi.util.FormatUtil;
+
 
 @RestController
 @RequestMapping(path = "api/v1/Cpu")
@@ -32,10 +34,27 @@ public class CpuController {
     }
 
     //Retrieve Cpu
+    // @GetMapping
+    // public List<Cpu> getCpu() {
+    //     return cpuService.getCpuList();
+    // }
+
     @GetMapping
     public List<Cpu> getCpu() {
-        return cpuService.getCpuList();
+        List<Cpu> cpuList = cpuService.getCpuList();
+
+        // Calculate and add formatted uptime to each CPU object
+        for (Cpu cpu : cpuList) {
+            // Calculate formatted uptime
+            String formattedUptime = FormatUtil.formatElapsedSecs(cpu.getProcessorUptime());
+            // Set formatted uptime in the CPU object
+            cpu.setFormattedUptime(formattedUptime);
+        }
+
+        return cpuList;
     }
+
+    
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,7 +68,6 @@ public class CpuController {
         return cpuService.getCpuById(id);
     }
 
-    //
     @PutMapping("/{id}")
     public Optional<Cpu> updateCpu(@PathVariable Long id, @RequestBody Cpu cpu){
         return cpuService.updateCpu(id,cpu);
@@ -59,4 +77,9 @@ public class CpuController {
     public boolean deleteCpu(@PathVariable Long id) {
        return cpuService.deleteCpu(id);
     }
+    // TODO LIST
+    // private String getUptimeInDays(Long uptimeInSeconds) {
+    //    return FormatUtil.formatElapsedSecs(uptimeInSeconds);
+    // }
+
 }

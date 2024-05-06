@@ -103,7 +103,7 @@ public class DatabaseIntegrationTest {
 
         usersRepository.save(user);
 
-        Users savedUser = usersRepository.findByusername(user.getUsername());
+        Users savedUser = usersRepository.findByUsername(user.getUsername());
         assertEquals(user.getUsername(), savedUser.getUsername());
         assertEquals(user.getPassword(), savedUser.getPassword());
         assertEquals(user.getEmail(), savedUser.getEmail());

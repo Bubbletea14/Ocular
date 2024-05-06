@@ -103,7 +103,7 @@ public class CpuCollector {
         return -1L;
     }
 
-    private String getUptimeInDays(Long uptimeInSeconds) {
-        return FormatUtil.formatElapsedSecs(uptimeInSeconds);
-    }
+    // private String getUptimeInDays(Long uptimeInSeconds) {
+    //     return FormatUtil.formatElapsedSecs(uptimeInSeconds);
+    // }
 }

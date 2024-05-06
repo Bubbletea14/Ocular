@@ -35,14 +35,15 @@ function fetchCpu() {
                 const listCpuItem = document.createElement('li');
                 listCpuItem.style.whiteSpace = 'pre-line';
                 listCpuItem.textContent = 
-                    `CPU ID: ${latestCpu.id}\n` + 
-                    `ProcessorType: ${latestCpu.processorType}\n` +
-                    `ProcessorSpeed: ${latestCpu.processorSpeed}\n` + 
-                    `ProcessorUsage: ${latestCpu.processorUsage}\n` +
+                    // `CPU ID:    ${latestCpu.id}\n` + 
+                    `Collection cycles:  5sec\n` +
+                    `ProcessorType:     ${latestCpu.processorType} \n` +
+                    `ProcessorSpeed:    ${latestCpu.processorSpeed} GHZ\n` + 
+                    `ProcessorUsage:    ${latestCpu.processorUsage} %\n` +
+                    `ProcessorUptime:   ${latestCpu.formattedUptime} \n` +
+                    // `ProcessorUptimeInSec: ${latestCpu.processorUptime}\n` +
                     `Count: ${latestCpu.count}`;
-                    // `UpTime: ${latestCpu.upTime}`;
-                
-                
+
                 // Append the new list item to the list element
                 cpuListElement.appendChild(listCpuItem);
             });
@@ -87,7 +88,7 @@ function fetchCpu() {
                         options: {
                             responsive: true,
                             maintainAspectRatio: true,
-                            aspectRatio:1,
+                            aspectRatio:4,
                             rotation: -90, 
                             circumference: 180, 
                             cutout: '30%', 
@@ -117,7 +118,7 @@ function fetchCpu() {
                     const labels = [];
 
                     for (let i = 1; i<= 10; i++){
-                        labels.push(`Label${i}`);
+                        labels.push(`${i}`);
                     };
 
                     // Define data for the line chart

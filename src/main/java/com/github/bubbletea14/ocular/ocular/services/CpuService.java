@@ -44,7 +44,7 @@ public class CpuService {
         return cpuRepository.save(cpu);
     }
 
-    //Update Cpu
+    // Update Cpu
     public Optional<Cpu> updateCpu(Long id, Cpu newCpu) {
         return cpuRepository.findById(id).map(existingCpu -> {
             existingCpu.setProcessorType(newCpu.getProcessorType());
@@ -63,4 +63,6 @@ public class CpuService {
         } 
        return true;
     }
+
+    
 }

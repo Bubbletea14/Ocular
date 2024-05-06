@@ -13,8 +13,8 @@
         }
 
         .accordion {
-            background: #ecb6b6;
-            color:#212fb1;
+            background: #add8e6;
+            color: #000000;
             cursor: pointer;
             padding: 18px;
             width: 100%;
@@ -26,7 +26,7 @@
         }
 
         .accordion:hover {
-            background: #d87b7b;
+            background: #0892d0;
         }
 
         .accordion-content {
@@ -42,88 +42,139 @@
             display: block;
         }
 
-        
+        .chartsize {
+            width: 20%;  
+            height: 400px;  
+            max-width: 400px;  
+            display: block;  
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+            width: 100%;
+        }
+
+
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 15px;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+        }
+
+        /* Create a right-aligned (split) link inside the navigation bar */
+        .topnav a.split {
+            float: right;
+            background-color: #b7c4bf;
+            color: white;
+        }
+
+        /* .processSection {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+        } */
+
+        /* .processListContainer {
+            max-width: 60%;
+            text-align: left; 
+            background-color: #e6f2ff; 
+            padding: 15px;
+            border: 1px solid #333; 
+            border-radius: 4px;
+        } */
+ 
     </style>
 
-    <script src = "https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"> </script>
 
 </head>
 
 <body>
     <h1>Welcome to Ocular</h1>
+    
+    <div class="topnav">
+       <a class="active" href="http://localhost:8080">Home</a>
+       <a href="https://github.com/Bubbletea14/Ocular">GitHub</a>
+       <a href="https://www.youtube.com/watch?v=4jtXQki--fA&t=243s">About Ocular</a>
+       <a href="http://localhost:8080/api/v1/Users" class="split">Users Login</a>
+    </div>
+
+    <div style="padding-left:16px">
+        <h2> </h2>
+        <p></p>
+      </div>
 
     <!-- Accordion for guage chart display -->
     <div class="accordion" onclick="toggleAccordion('gaugeChartSection')"> General Usage Information</div>
     <div id="gaugeChartSection" class="accordion-content">
         <h2>Memory Usage Chart</h2>
-        <canvas id="gaugeChartMemory" width="200" height="200"></canvas>
+        <canvas id="gaugeChartMemory" class="chartsize"></canvas>
         <h2>CPU Usage Chart</h2>
-        <canvas id="gaugeChartCpu" width="200" height="200"></canvas>
-
+        <canvas id="gaugeChartCpu" class="chartsize"></canvas>
     </div>
 
     <!-- Accordion for User List -->
-    <div class="accordion" onclick="toggleAccordion('userSection')">User List</div>
+    <!-- <div class="accordion" onclick="toggleAccordion('userSection')">User List</div>
     <div id="userSection" class="accordion-content">
         <ul class="userList"></ul>
-    </div>
+    </div> -->
 
     <!-- Accordion for Memory and CPU List -->
     <div class="accordion" onclick="toggleAccordion('memorySection')">Memory and CPU Information</div>
-    <div id="memorySection" class="accordion-content">
+    <div id="memorySection" class="accordion-content" >
         <h2>Memory Line Chart</h2>
-        <canvas id="lineChartMemory" width="200" height="200"></canvas>
+            <canvas id="lineChartMemory"></canvas>
         <ul class="memoryList"></ul>
+
         <h2>CPU Line Chart</h2>
-        <canvas id="lineChartCpu" width="200" height="200"></canvas>
+        <canvas id="lineChartCpu"></canvas>
         <ul class="cpuList"></ul>
-        
     </div>
-
-    <!-- Accordion for CPU List
-    <div class="accordion" onclick="toggleAccordion('cpuSection')">CPU List</div>
-    <div id="cpuSection" class="accordion-content">
-
-        <h2>CPU Line Chart</h2>
-        <canvas id="lineChartCpu" width="200" height="200"></canvas>
-        <ul class="cpuList"></ul>
-    </div> -->
 
     <!-- Accordion for Process List -->
-    <div class="accordion" onclick="toggleAccordion('processSection')">Process List</div>
-    <div id="processSection" class="accordion-content">
-    <div class="processListContainer">   
-        <ul class="processList"></ul>
+    <div class="processSection">
+        <div class="accordion" onclick="toggleAccordion('processSection')">Process List</div>
+        <div id="processSection" class="accordion-content">
+            <div class="processListContainer">
+                <ul class="processList"></ul>
+            </div>
     </div>
-
-    <script src="fetchUsers.js"></script>
-    <script src="fetchMemory.js"></script>
-    <script src="fetchCpu.js"></script>
-    <script src="fetchProcess.js"></script>
-
-    <script>
-
-        function toggleAccordion(sectionId) {
-            const section = document.getElementById(sectionId);
-            section.classList.toggle('open');
-        }
-
-        //Fetch data from the Users API
-        fetchUsers();
-        setInterval(fetchUsers,5000);
-        //Fetch data from the Memory API 
-        fetchMemory();
-        setInterval(fetchMemory,5000);
-        //Fetch data from the Cpu API
-        fetchCpu();
-        setInterval(fetchCpu,5000);
-        //Fetch data from the processes API 
-        fetchProcess();
-        setInterval(fetchProcess,5000);
-    </script>
         
-        
-        
+        <script src="fetchMemory.js"></script>
+        <script src="fetchUsers.js"></script>
+        <script src="fetchCpu.js"></script>
+        <script src="fetchProcess.js"></script>
+
+        <script>
+
+            function toggleAccordion(sectionId) {
+                const section = document.getElementById(sectionId);
+                section.classList.toggle('open');
+            }
+
+            //Fetch data from the Users API
+            fetchUsers();
+            setInterval(fetchUsers, 5000);
+            //Fetch data from the Memory API 
+            fetchMemory();
+            setInterval(fetchMemory, 5000);
+            //Fetch data from the Cpu API
+            fetchCpu();
+            setInterval(fetchCpu, 5000);
+            //Fetch data from the processes API 
+            fetchProcess();
+            setInterval(fetchProcess, 5000);
+        </script>
+
 </body>
 
 </html>

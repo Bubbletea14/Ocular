@@ -15,6 +15,8 @@ public class Cpu {
     private Long processorUptime;
     private LocalDateTime upTime;
     private double processorUsage;
+    @Transient // This field is not persisted in the database
+    private String formattedUptime;
 
     public Cpu() {
 
@@ -25,13 +27,18 @@ public class Cpu {
                 double processorSpeed,
                 double processorUsage,
                 Long count,
-                LocalDateTime upTime){
+                LocalDateTime upTime,
+                long processorUptime
+                //String formattedUptime
+                ){
         this.id = id;
         this.processorType = processorType;
         this.processorSpeed = processorSpeed;
         this.processorUsage = processorUsage;
         this.count = count;
         this.upTime = upTime;
+        this.processorUptime = processorUptime;
+        //this.formattedUptime = formattedUptime;
     }
     
     // Getter and Setter
@@ -101,15 +108,12 @@ public class Cpu {
         this.processorUsage = processorUsage;
     }
 
-    @Override
-    public String toString () {
-        return "Cpu {" + 
-                "CpuID=" + id + 
-                "ProcessorType=" + processorType +
-                ", ProcessorSpeed=" + processorSpeed + 
-                ", Count='" + count + '\'' + 
-                ", upTime='" + upTime + '\'' + 
-                '}';
+    public String getFormattedUptime() {
+        return formattedUptime;
+    }
+
+    public void setFormattedUptime(String formattedUptime) {
+        this.formattedUptime = formattedUptime;
     }
 }
 
