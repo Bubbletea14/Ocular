@@ -1,5 +1,4 @@
 package com.github.bubbletea14.ocular.ocular.tables;
-import java.time.LocalDate;
 import jakarta.persistence.*;;
 
 @Entity
