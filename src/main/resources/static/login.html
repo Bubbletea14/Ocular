@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<head>
+    <title>Login & Register</title>
+    <style>
+        body {
+            background-color: bisque;
+        }
+
+        h1 {
+            color: blueviolet;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+            width: 100%;
+        }
+
+
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 15px;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+        }
+
+        /* Create a right-aligned (split) link inside the navigation bar */
+        .topnav a.split {
+            float: right;
+            background-color: #b7c4bf;
+            color: white;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Ocular</h1>
+    <div class="topnav">
+        
+        <a class="active" href="http://localhost:8080">Home</a>
+        <a href="https://github.com/Bubbletea14/Ocular">GitHub</a>
+        <a href="https://www.youtube.com/watch?v=4jtXQki--fA&t=243s">About Ocular</a>
+        <a href="http://localhost:8080/login.html" class="split">Users Login</a>
+     </div>
+
+    <div class="container">
+        <!-- Login Form -->
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="login-username">Username:</label>
+                <input type="text" id="login-username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <!-- To display feedback messages -->
+        <div id="loginMessage"></div> 
+
+        <!-- Register Form -->
+        <h2>Register</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="register-username">Username:</label>
+                <input type="text" id="register-username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="register-email">Email:</label>
+                <input type="email" id="register-email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="register-password">Password:</label>
+                <input type="password" id="register-password" name="password" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <!-- To display registration feedback messages -->
+        <div id="registerMessage"></div> 
+    </div>
+
+    <script>
+    // Handle Login Form Submission
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const username = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value;
+
+        const loginData = {
+            username: username,
+            password: password
+        };
+
+        fetch('/api/v1/Users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginData)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text(); 
+            } else {
+                throw new Error('Login failed.'); 
+            }
+        })
+        .then(data => {
+            document.getElementById('loginMessage').textContent = 'Login successful.'; 
+            // localStorage.setItem('loggedInUsername', data.username);
+            window.location.href = 'http://localhost:8080';
+        })
+        .catch(error => {
+            document.getElementById('loginMessage').textContent = 'Error: ' + error.message; 
+        });
+    });
+
+    // Handle Register Form Submission
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const username = document.getElementById('register-username').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+
+        const registerData = {
+            username: username,
+            email: email,
+            password: password
+        };
+
+        fetch('/api/v1/Users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(registerData)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); 
+            } else {
+                throw new Error('Registration failed.');
+            }
+        })
+        .then(data => {
+            document.getElementById('registerMessage').textContent = 'Registration successful.';
+        })
+        .catch(error => {
+            document.getElementById('registerMessage').textContent = 'Error: ' + error.message; 
+        });
+    });
+    </script>
+</body>
+</html>

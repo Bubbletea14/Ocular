@@ -75,7 +75,7 @@ function fetchCpu() {
                         datasets: [
                             {
                                 data: [processorUsage, 100 - processorUsage],
-                                backgroundColor: [cpuFreeColor, cpuUsedColor],
+                                backgroundColor: [cpuUsedColor,cpuFreeColor],
                                 borderWidth: 0,
                             },
                         ],

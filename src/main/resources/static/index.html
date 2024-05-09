@@ -76,21 +76,6 @@
             background-color: #b7c4bf;
             color: white;
         }
-
-        /* .processSection {
-            display: flex;
-            justify-content: center; 
-            align-items: center;
-        } */
-
-        /* .processListContainer {
-            max-width: 60%;
-            text-align: left; 
-            background-color: #e6f2ff; 
-            padding: 15px;
-            border: 1px solid #333; 
-            border-radius: 4px;
-        } */
  
     </style>
 
@@ -105,7 +90,7 @@
        <a class="active" href="http://localhost:8080">Home</a>
        <a href="https://github.com/Bubbletea14/Ocular">GitHub</a>
        <a href="https://www.youtube.com/watch?v=4jtXQki--fA&t=243s">About Ocular</a>
-       <a href="http://localhost:8080/api/v1/Users" class="split">Users Login</a>
+       <a href="http://localhost:8080/login.html" class="split">Users Login</a>
     </div>
 
     <div style="padding-left:16px">
@@ -121,12 +106,6 @@
         <h2>CPU Usage Chart</h2>
         <canvas id="gaugeChartCpu" class="chartsize"></canvas>
     </div>
-
-    <!-- Accordion for User List -->
-    <!-- <div class="accordion" onclick="toggleAccordion('userSection')">User List</div>
-    <div id="userSection" class="accordion-content">
-        <ul class="userList"></ul>
-    </div> -->
 
     <!-- Accordion for Memory and CPU List -->
     <div class="accordion" onclick="toggleAccordion('memorySection')">Memory and CPU Information</div>
@@ -173,6 +152,12 @@
             //Fetch data from the processes API 
             fetchProcess();
             setInterval(fetchProcess, 5000);
+
+            window.onload = function() {
+            const loggedInUsername = localStorage.getItem('loggedInUsername'); // Retrieve stored username
+
+        
+    };
         </script>
 
 </body>
